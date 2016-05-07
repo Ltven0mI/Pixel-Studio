@@ -7,11 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pixel_Studio.Components;
 
 namespace Pixel_Studio.Controls
 {
     public partial class Canvas : UserControl
     {
+        [Browsable(false)]
+        public ProjectHandler ProjectHandler { get; set; }
+        private Project ActiveProject { get { return ProjectHandler.ActiveProject; } }
+
+
         public Canvas()
         {
             InitializeComponent();
@@ -28,13 +34,7 @@ namespace Pixel_Studio.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            new Project(Project.ProjectType.Image).Draw(e);
-        }
-
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
+            ActiveProject.Draw(e);
         }
     }
 }

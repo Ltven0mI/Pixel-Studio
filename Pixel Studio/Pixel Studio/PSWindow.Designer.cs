@@ -28,16 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.canvas1 = new Pixel_Studio.Controls.Canvas();
+            this.canvas = new Pixel_Studio.Controls.Canvas();
+            this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
             this.SuspendLayout();
             // 
-            // canvas1
+            // canvas
             // 
-            this.canvas1.BackColor = System.Drawing.Color.Gainsboro;
-            this.canvas1.Location = new System.Drawing.Point(12, 12);
-            this.canvas1.Name = "canvas1";
-            this.canvas1.Size = new System.Drawing.Size(1240, 649);
-            this.canvas1.TabIndex = 0;
+            this.canvas.BackColor = System.Drawing.Color.Gainsboro;
+            this.canvas.Location = new System.Drawing.Point(12, 12);
+            this.canvas.Name = "canvas";
+            this.canvas.Size = new System.Drawing.Size(1240, 649);
+            this.canvas.TabIndex = 0;
+            // 
+            // projectHandler
+            // 
+            this.projectHandler.Canvas = this.canvas;
             // 
             // PSWindow
             // 
@@ -45,7 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1264, 673);
-            this.Controls.Add(this.canvas1);
+            this.Controls.Add(this.canvas);
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "PSWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -56,7 +61,8 @@
 
         #endregion
 
-        private Controls.Canvas canvas1;
+        private Controls.Canvas canvas;
+        private Components.ProjectHandler projectHandler;
     }
 }
 

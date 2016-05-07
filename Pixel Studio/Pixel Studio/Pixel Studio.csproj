@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D3AB54F-5330-45C6-99D8-DE94FBB30E9A}</ProjectGuid>
+    <ProjectGuid>{6A4FA2C5-150F-4C83-B6BF-8546EB1F06E5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pixel_Studio</RootNamespace>
@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ProjectHandler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\ProjectHandler.Designer.cs">
+      <DependentUpon>ProjectHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Canvas.cs">
       <SubType>UserControl</SubType>
     </Compile>
