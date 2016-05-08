@@ -28,16 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openThemeDialog = new System.Windows.Forms.OpenFileDialog();
             this.canvas = new Pixel_Studio.Controls.Canvas();
             this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.themeToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1264, 24);
+            this.menuStrip.TabIndex = 1;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // themeToolStripMenuItem
+            // 
+            this.themeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem});
+            this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.themeToolStripMenuItem.Text = "Theme";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // openThemeDialog
+            // 
+            this.openThemeDialog.DefaultExt = "theme";
+            this.openThemeDialog.Title = "Load Theme";
             // 
             // canvas
             // 
             this.canvas.BackColor = System.Drawing.Color.Gainsboro;
-            this.canvas.Location = new System.Drawing.Point(12, 12);
+            this.canvas.Location = new System.Drawing.Point(12, 27);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(1240, 649);
+            this.canvas.ProjectHandler = this.projectHandler;
+            this.canvas.Size = new System.Drawing.Size(1240, 634);
             this.canvas.TabIndex = 0;
             // 
             // projectHandler
@@ -51,11 +87,16 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1264, 673);
             this.Controls.Add(this.canvas);
+            this.Controls.Add(this.menuStrip);
             this.ForeColor = System.Drawing.Color.Black;
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "PSWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pixel Studio - Image Editor";
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -63,6 +104,10 @@
 
         private Controls.Canvas canvas;
         private Components.ProjectHandler projectHandler;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openThemeDialog;
     }
 }
 

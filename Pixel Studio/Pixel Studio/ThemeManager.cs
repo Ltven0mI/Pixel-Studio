@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace Pixel_Studio
 {
@@ -14,10 +15,22 @@ namespace Pixel_Studio
         public static Theme ActiveTheme { get; private set; } = new Theme();
         //private static List<string> Themes;
 
+        public static event EventHandler ThemeLoaded;
+
 
         public static void InitThemes()
         {
+            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(ActiveTheme));
+        }
 
+        public static void LoadTheme(string filename)
+        {
+            string themeText = File.ReadAllText(filename);
+            ActiveTheme = JsonConvert.DeserializeObject<Theme>(themeText);
+            if (ThemeLoaded != null)
+            {
+                ThemeLoaded(ActiveTheme, new EventArgs());
+            }
         }
 
         //public static string[] GetThemes()

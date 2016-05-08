@@ -22,12 +22,8 @@ namespace Pixel_Studio.Controls
         {
             InitializeComponent();
             DoubleBuffered = true;
-        }
 
-
-        private void Canvas_Load(object sender, EventArgs e)
-        {
-            BackColor = ThemeManager.ActiveTheme.CanvasBackColor;
+            ThemeManager.ThemeLoaded += ThemeManager_ThemeLoaded;
         }
 
 
@@ -35,6 +31,18 @@ namespace Pixel_Studio.Controls
         {
             base.OnPaint(e);
             ActiveProject.Draw(e);
+        }
+
+
+        // Theme Loading //
+        private void OnLoadedTheme()
+        {
+            BackColor = ThemeManager.ActiveTheme.CanvasBackColor;
+        }
+
+        private void ThemeManager_ThemeLoaded(object sender, EventArgs e)
+        {
+            OnLoadedTheme();
         }
     }
 }
