@@ -18,6 +18,14 @@ namespace Pixel_Studio.Controls
         private Project ActiveProject { get { return ProjectHandler.ActiveProject; } }
 
 
+        // Mouse Positions //
+        public int LastCanvasX { get; private set; }
+        public int LastCanavsY { get; private set; }
+
+        public int LastProjectX { get; private set; }
+        public int LastProjectY { get; private set; }
+
+
         public Canvas()
         {
             InitializeComponent();
@@ -38,6 +46,30 @@ namespace Pixel_Studio.Controls
         {
             base.OnSizeChanged(e);
             Invalidate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            UpdateLastMousePos(e.X, e.Y);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            UpdateLastMousePos(e.X, e.Y);
+        }
+
+        private void UpdateLastMousePos(int x, int y)
+        {
+            LastCanvasX = x;
+            LastCanavsY = y;
+            if (ActiveProject != null)
+            {
+                LastProjectX = (int)((x - ActiveProject.DrawX) / ActiveProject.Scale);
+                LastProjectY = (int)((y - ActiveProject.DrawY) / ActiveProject.Scale);
+            }
+            System.Diagnostics.Debug.WriteLine(LastCanvasX + " " + LastCanavsY + " " + LastProjectX + " " + LastProjectY);
         }
 
 

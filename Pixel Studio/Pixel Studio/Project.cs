@@ -40,8 +40,7 @@ namespace Pixel_Studio
                     break;
             }
 
-            Scale = 1;
-            OffsetX = 100;
+            Scale = 2;
         }
 
 
@@ -53,12 +52,9 @@ namespace Pixel_Studio
             DrawX = (int)((e.ClipRectangle.Width / 2f - DrawWidth / 2f) + OffsetX);
             DrawY = (int)((e.ClipRectangle.Height / 2f - DrawHeight / 2f) + OffsetY);
 
-            System.Diagnostics.Debug.WriteLine(DrawX + " " + DrawY + " " + DrawWidth + " " + DrawHeight);
-
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-            e.Graphics.DrawRectangle(new Pen(Color.Red), DrawX, DrawY, DrawWidth, DrawHeight);
             e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
         }
     }
