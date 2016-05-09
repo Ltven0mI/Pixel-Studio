@@ -34,6 +34,13 @@ namespace Pixel_Studio.Controls
         }
 
 
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            Invalidate();
+        }
+
+
         // Theme Loading //
         private void OnLoadedTheme()
         {

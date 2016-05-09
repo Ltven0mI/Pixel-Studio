@@ -39,21 +39,26 @@ namespace Pixel_Studio
                 case ProjectType.Tileset:
                     break;
             }
+
+            Scale = 1;
         }
 
 
         public void Draw(PaintEventArgs e)
         {
-            DrawX = 10;
-            DrawY = 100;
-            DrawWidth = 300;
-            DrawHeight = 200;
+            Bitmap image = ProjectObject.GetImage();
+            DrawWidth = (int)(image.Width * Scale);
+            DrawHeight = (int)(image.Height * Scale);
+            DrawX = (int)(e.ClipRectangle.Width / 2f - DrawWidth / 2f);
+            DrawY = (int)(e.ClipRectangle.Height / 2f - DrawHeight / 2f);
+
+            System.Diagnostics.Debug.WriteLine(DrawX + " " + DrawY + " " + DrawWidth + " " + DrawHeight);
 
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
             e.Graphics.DrawRectangle(new Pen(Color.Red), DrawX, DrawY, DrawWidth, DrawHeight);
-            e.Graphics.DrawImage(ProjectObject.GetImage(), DrawX, DrawY, DrawWidth, DrawHeight);
+            e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
         }
     }
 }
