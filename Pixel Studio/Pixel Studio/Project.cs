@@ -41,6 +41,7 @@ namespace Pixel_Studio
             }
 
             Scale = 1;
+            OffsetX = 100;
         }
 
 
@@ -49,8 +50,8 @@ namespace Pixel_Studio
             Bitmap image = ProjectObject.GetImage();
             DrawWidth = (int)(image.Width * Scale);
             DrawHeight = (int)(image.Height * Scale);
-            DrawX = (int)(e.ClipRectangle.Width / 2f - DrawWidth / 2f);
-            DrawY = (int)(e.ClipRectangle.Height / 2f - DrawHeight / 2f);
+            DrawX = (int)((e.ClipRectangle.Width / 2f - DrawWidth / 2f) + OffsetX);
+            DrawY = (int)((e.ClipRectangle.Height / 2f - DrawHeight / 2f) + OffsetY);
 
             System.Diagnostics.Debug.WriteLine(DrawX + " " + DrawY + " " + DrawWidth + " " + DrawHeight);
 
