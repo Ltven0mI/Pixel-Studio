@@ -27,10 +27,7 @@ namespace Pixel_Studio
         {
             string themeText = File.ReadAllText(filename);
             ActiveTheme = JsonConvert.DeserializeObject<Theme>(themeText);
-            if (ThemeLoaded != null)
-            {
-                ThemeLoaded(ActiveTheme, new EventArgs());
-            }
+            ThemeLoaded?.Invoke(ActiveTheme, new EventArgs());
         }
 
         //public static string[] GetThemes()
