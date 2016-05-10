@@ -49,8 +49,8 @@ namespace Pixel_Studio
             Bitmap image = ProjectObject.GetImage();
             DrawWidth = (int)(image.Width * Scale);
             DrawHeight = (int)(image.Height * Scale);
-            DrawX = (int)((e.ClipRectangle.Width / 2f - DrawWidth / 2f) + OffsetX);
-            DrawY = (int)((e.ClipRectangle.Height / 2f - DrawHeight / 2f) + OffsetY);
+            DrawX = (int)((e.ClipRectangle.Width / 2f - DrawWidth / 2f) + OffsetX * Scale);
+            DrawY = (int)((e.ClipRectangle.Height / 2f - DrawHeight / 2f) + OffsetY * Scale);
 
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;

@@ -57,6 +57,23 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                if (ActiveProject != null)
+                {
+                    ActiveProject.OffsetX += (e.X - LastCanvasX) / ActiveProject.Scale;
+                    ActiveProject.OffsetY += (e.Y - LastCanavsY) / ActiveProject.Scale;
+                    Invalidate();
+                }
+            }
+
+            UpdateLastMousePos(e.X, e.Y);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
             UpdateLastMousePos(e.X, e.Y);
         }
 
