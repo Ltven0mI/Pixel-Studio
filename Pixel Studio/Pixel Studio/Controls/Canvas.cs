@@ -77,6 +77,7 @@ namespace Pixel_Studio.Controls
             UpdateLastMousePos(e.X, e.Y);
         }
 
+
         private void UpdateLastMousePos(int x, int y)
         {
             LastCanvasX = x;
