@@ -1,4 +1,5 @@
-﻿using Pixel_Studio.Projects;
+﻿using Pixel_Studio.Components;
+using Pixel_Studio.Projects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +16,8 @@ namespace Pixel_Studio
 
         public ProjectType projectType { get; private set; }
         public ProjectObject ProjectObject { get; private set; }
+
+        public ProjectHandler ProjectHandler { get; set; }
 
         public float OffsetX;
         public float OffsetY;

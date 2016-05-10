@@ -38,8 +38,32 @@ namespace Pixel_Studio.Components
         {
             InitializeComponent();
             Projects = new List<Project>();
-            Projects.Add(new Project(Project.ProjectType.Image));
-            ActiveProject = Projects[0];
+            AddProject(new Project(Project.ProjectType.Image));
+        }
+
+
+        public void Redraw()
+        {
+            if (canvas != null)
+                canvas.Invalidate();
+        }
+
+
+        public void SetActiveProject(Project project)
+        {
+            if (Projects.Contains(project))
+            {
+                ActiveProject = project;
+                Redraw();
+            }
+        }
+
+
+        public void AddProject(Project project)
+        {
+            project.ProjectHandler = this;
+            Projects.Add(project);
+            SetActiveProject(project);
         }
     }
 }
