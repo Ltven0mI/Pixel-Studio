@@ -38,7 +38,6 @@ namespace Pixel_Studio.Components
         {
             InitializeComponent();
             Projects = new List<Project>();
-            AddProject(new Project(Project.ProjectType.Image));
         }
 
 
@@ -53,7 +52,10 @@ namespace Pixel_Studio.Components
         {
             if (Projects.Contains(project))
             {
+                if (ActiveProject != null)
+                    ActiveProject.IsActive = false;
                 ActiveProject = project;
+                project.IsActive = true;
                 Redraw();
             }
         }

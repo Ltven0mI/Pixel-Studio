@@ -38,13 +38,16 @@ namespace Pixel_Studio.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            ActiveProject.Draw(e);
+            if (ActiveProject != null)
+                ActiveProject.Draw(e);
         }
 
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
+            if (ActiveProject != null)
+                ActiveProject.UpdateOffsetBounds();
             Invalidate();
         }
 
@@ -62,8 +65,8 @@ namespace Pixel_Studio.Controls
             {
                 if (ActiveProject != null)
                 {
-                    ActiveProject.OffsetX += (e.X - LastCanvasX) / ActiveProject.Scale;
-                    ActiveProject.OffsetY += (e.Y - LastCanavsY) / ActiveProject.Scale;
+                    ActiveProject.OffsetX += (e.X - LastCanvasX);
+                    ActiveProject.OffsetY += (e.Y - LastCanavsY);
                     Invalidate();
                 }
             }
@@ -77,6 +80,16 @@ namespace Pixel_Studio.Controls
             UpdateLastMousePos(e.X, e.Y);
         }
 
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            if (ActiveProject != null)
+            {
+                ActiveProject.Scale += ActiveProject.Scale * 0.1f * e.Delta / 120;
+                Invalidate();
+            }
+        }
+
 
         private void UpdateLastMousePos(int x, int y)
         {
@@ -87,7 +100,6 @@ namespace Pixel_Studio.Controls
                 LastProjectX = (int)((x - ActiveProject.DrawX) / ActiveProject.Scale);
                 LastProjectY = (int)((y - ActiveProject.DrawY) / ActiveProject.Scale);
             }
-            System.Diagnostics.Debug.WriteLine(LastCanvasX + " " + LastCanavsY + " " + LastProjectX + " " + LastProjectY);
         }
 
 

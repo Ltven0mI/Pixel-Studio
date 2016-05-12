@@ -8,6 +8,8 @@ namespace Pixel_Studio
 {
     static class Program
     {
+        public static PSWindow PSWindow { get; private set; }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,7 +20,8 @@ namespace Pixel_Studio
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PSWindow());
+            PSWindow = new PSWindow();
+            Application.Run(PSWindow);
         }
     }
 }
