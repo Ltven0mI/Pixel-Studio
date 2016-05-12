@@ -47,7 +47,10 @@ namespace Pixel_Studio.Controls
         {
             base.OnSizeChanged(e);
             if (ActiveProject != null)
+            {
                 ActiveProject.UpdateOffsetBounds();
+                ActiveProject.UpdateOffsetLock();
+            }
             Invalidate();
         }
 

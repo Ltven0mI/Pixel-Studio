@@ -151,8 +151,8 @@ namespace Pixel_Studio
             {
                 float halfDrawWidth = DrawWidth / 2f;
                 float halfDrawHeight = DrawHeight / 2f;
-                float halfCanvasWidth = Canvas.Width / 2f;
-                float halfCanvasHeight = Canvas.Height / 2f;
+                float halfCanvasWidth = Canvas.Size.Width / 2f;
+                float halfCanvasHeight = Canvas.Size.Height / 2f;
                 if (DrawWidth > Canvas.Width)
                 {
                     OffsetXMin = -halfDrawWidth;
@@ -177,15 +177,20 @@ namespace Pixel_Studio
             }
         }
 
+        public void UpdateOffsetLock()
+        {
+            if (OffsetX < OffsetXMin) offsetX = OffsetXMin;
+            if (OffsetX > OffsetXMax) offsetX = OffsetXMax;
+            if (OffsetY < OffsetYMin) offsetY = OffsetYMin;
+            if (OffsetY > OffsetYMax) offsetY = OffsetYMax;
+        }
+
 
         // Event Methods //
         protected virtual void OnOffsetChanged(EventArgs e)
         {
             UpdateOffsetBounds();
-            if (OffsetX < OffsetXMin) offsetX = OffsetXMin;
-            if (OffsetX > OffsetXMax) offsetX = OffsetXMax;
-            if (OffsetY < OffsetYMin) offsetY = OffsetYMin;
-            if (OffsetY > OffsetYMax) offsetY = OffsetYMax;
+            UpdateOffsetLock();
 
             OffsetChanged?.Invoke(this, e);
         }
@@ -193,10 +198,7 @@ namespace Pixel_Studio
         protected virtual void OnScaleChanged(EventArgs e)
         {
             UpdateOffsetBounds();
-            if (OffsetX < OffsetXMin) offsetX = OffsetXMin;
-            if (OffsetX > OffsetXMax) offsetX = OffsetXMax;
-            if (OffsetY < OffsetYMin) offsetY = OffsetYMin;
-            if (OffsetY > OffsetYMax) offsetY = OffsetYMax;
+            UpdateOffsetLock();
 
             ScaleChanged?.Invoke(this, e);
         }
