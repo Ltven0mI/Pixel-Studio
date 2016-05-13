@@ -9,14 +9,22 @@ namespace Pixel_Studio.Projects
 {
     public class ImageProject : ProjectObject
     {
+        private Bitmap Image;
+
+
+        public ImageProject()
+        {
+            Image = new Bitmap(16, 16);
+            using (Graphics g = Graphics.FromImage(Image))
+            {
+                g.FillRectangle(new SolidBrush(Color.Blue), 0, 0, 16, 16);
+            }
+        }
+
+
         public Bitmap GetImage()
         {
-            Bitmap result = new Bitmap(100, 100);
-            using (Graphics g = Graphics.FromImage(result))
-            {
-                g.FillRectangle(new SolidBrush(Color.Blue), 0, 0, 100, 100);
-            }
-            return result;
+            return Image;
         }
     }
 }
