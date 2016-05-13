@@ -15,7 +15,8 @@ namespace Pixel_Studio.Controls
     {
         [Browsable(false)]
         public ProjectHandler ProjectHandler { get; set; }
-        private Project ActiveProject { get { return ProjectHandler.ActiveProject; } }
+        private Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
+        private Tool ActiveTool { get { return ProjectHandler?.ActiveTool; } }
 
 
         // Mouse Positions //
@@ -58,6 +59,14 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+
+            if (ActiveTool != null)
+            {
+                System.Diagnostics.Debug.WriteLine("mouse button down");
+                int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+                int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+                ActiveTool.MouseDown(e.Button, projectX, projectY);
+            }
 
             //if (e.Button == MouseButtons.Left)
             //{

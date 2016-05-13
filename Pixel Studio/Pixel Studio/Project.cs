@@ -16,7 +16,7 @@ namespace Pixel_Studio
         public const float MIN_SCALE = 0.001f;
 
         public ProjectHandler ProjectHandler { get; set; }
-        public Canvas Canvas { get { if (ProjectHandler != null) return ProjectHandler.Canvas; else return null; } }
+        public Canvas Canvas { get { return ProjectHandler?.Canvas; } }
 
         public enum ProjectType { Image, Animation }
 
