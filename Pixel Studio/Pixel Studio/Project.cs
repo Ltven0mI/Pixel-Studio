@@ -46,28 +46,6 @@ namespace Pixel_Studio
             }
         }
 
-        private float relativeOffsetX;
-        public float RelativeOffsetX
-        {
-            get { return relativeOffsetX; }
-            set
-            {
-                relativeOffsetX = value;
-                OnOffsetChanged(new EventArgs());
-            }
-        }
-
-        private float relativeOffsetY;
-        public float RelativeOffsetY
-        {
-            get { return relativeOffsetY; }
-            set
-            {
-                relativeOffsetY = value;
-                OnOffsetChanged(new EventArgs());
-            }
-        }
-
         private float scale;
         public float Scale
         {
@@ -97,6 +75,9 @@ namespace Pixel_Studio
         public int DrawY { get; private set; }
         public int DrawWidth { get; private set; }
         public int DrawHeight { get; private set; }
+
+        public float LockedOffsetX { get; private set; }
+        public float LockedOffsetY { get; private set; }
 
 
         private float OffsetXMin;
@@ -131,16 +112,18 @@ namespace Pixel_Studio
 
         public void Draw(PaintEventArgs e)
         {
-            Bitmap image = ProjectObject.GetImage();
-            DrawWidth = (int)(image.Width * Scale);
-            DrawHeight = (int)(image.Height * Scale);
-            DrawX = (int)((e.ClipRectangle.Width / 2f - DrawWidth / 2f) + OffsetX);
-            DrawY = (int)((e.ClipRectangle.Height / 2f - DrawHeight / 2f) + OffsetY);
-
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
+            Bitmap image = ProjectObject.GetImage();
             e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
+        }
+
+
+        public void LockOffset()
+        {
+            OffsetX = LockedOffsetX;
+            OffsetY = LockedOffsetY;
         }
 
 
@@ -177,12 +160,27 @@ namespace Pixel_Studio
             }
         }
 
-        public void UpdateOffsetLock()
+        public void UpdateLockedOffset()
         {
-            if (OffsetX < OffsetXMin) offsetX = OffsetXMin;
-            if (OffsetX > OffsetXMax) offsetX = OffsetXMax;
-            if (OffsetY < OffsetYMin) offsetY = OffsetYMin;
-            if (OffsetY > OffsetYMax) offsetY = OffsetYMax;
+            LockedOffsetX = OffsetX;
+            LockedOffsetY = OffsetY;
+
+            if (LockedOffsetX < OffsetXMin) LockedOffsetX = OffsetXMin;
+            if (LockedOffsetX > OffsetXMax) LockedOffsetX = OffsetXMax;
+            if (LockedOffsetY < OffsetYMin) LockedOffsetY = OffsetYMin;
+            if (LockedOffsetY > OffsetYMax) LockedOffsetY = OffsetYMax;
+        }
+
+        public void UpdateDrawBounds()
+        {
+            if (Canvas != null)
+            {
+                Bitmap image = ProjectObject.GetImage();
+                DrawWidth = (int)(image.Width * Scale);
+                DrawHeight = (int)(image.Height * Scale);
+                DrawX = (int)((Canvas.Size.Width / 2f - DrawWidth / 2f) + LockedOffsetX);
+                DrawY = (int)((Canvas.Size.Height / 2f - DrawHeight / 2f) + LockedOffsetY);
+            }
         }
 
 
@@ -190,7 +188,8 @@ namespace Pixel_Studio
         protected virtual void OnOffsetChanged(EventArgs e)
         {
             UpdateOffsetBounds();
-            UpdateOffsetLock();
+            UpdateLockedOffset();
+            UpdateDrawBounds();
 
             OffsetChanged?.Invoke(this, e);
         }
@@ -198,7 +197,8 @@ namespace Pixel_Studio
         protected virtual void OnScaleChanged(EventArgs e)
         {
             UpdateOffsetBounds();
-            UpdateOffsetLock();
+            UpdateLockedOffset();
+            UpdateDrawBounds();
 
             ScaleChanged?.Invoke(this, e);
         }
@@ -206,7 +206,12 @@ namespace Pixel_Studio
         protected virtual void OnIsActiveChanged(EventArgs e)
         {
             IsActiveChanged?.Invoke(this, e);
-            if (IsActive) UpdateOffsetBounds();
+            if (IsActive)
+            {
+                UpdateOffsetBounds();
+                UpdateLockedOffset();
+                UpdateDrawBounds();
+            }
             System.Diagnostics.Debug.WriteLine("Set ISsActive " + IsActive + " " + (Canvas != null) + " " + (ProjectHandler != null));
         }
     }

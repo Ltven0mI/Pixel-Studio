@@ -49,7 +49,8 @@ namespace Pixel_Studio.Controls
             if (ActiveProject != null)
             {
                 ActiveProject.UpdateOffsetBounds();
-                ActiveProject.UpdateOffsetLock();
+                ActiveProject.UpdateLockedOffset();
+                ActiveProject.UpdateDrawBounds();
             }
             Invalidate();
         }
@@ -80,6 +81,16 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                if (ActiveProject != null)
+                {
+                    ActiveProject.LockOffset();
+                    Invalidate();
+                }
+            }
+
             UpdateLastMousePos(e.X, e.Y);
         }
 
