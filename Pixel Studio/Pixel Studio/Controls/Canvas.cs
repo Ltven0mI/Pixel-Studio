@@ -41,6 +41,8 @@ namespace Pixel_Studio.Controls
             base.OnPaint(e);
             if (ActiveProject != null)
                 ActiveProject.Draw(e);
+            if (ActiveTool != null)
+                ActiveTool.OnPaint(e);
         }
 
 
@@ -60,24 +62,14 @@ namespace Pixel_Studio.Controls
         {
             base.OnMouseDown(e);
 
-            if (ActiveTool != null)
+            if (ActiveTool != null && ActiveProject != null)
             {
-                System.Diagnostics.Debug.WriteLine("mouse button down");
                 int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
                 int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
-                ActiveTool.MouseDown(e.Button, projectX, projectY);
+                using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                    ActiveTool.MouseDown(e.Button, projectX, projectY, g);
+                Invalidate();
             }
-
-            //if (e.Button == MouseButtons.Left)
-            //{
-            //    if (ActiveProject != null)
-            //    {
-            //        int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
-            //        int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
-            //        ActiveProject.ProjectObject.GetImage().SetPixel(projectX, projectY, Color.Orange);
-            //        Invalidate();
-            //    }
-            //}
 
             UpdateLastMousePos(e.X, e.Y);
         }
@@ -85,32 +77,25 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-
             if (ActiveProject != null)
             {
                 if (e.Button == MouseButtons.Middle)
                 {
                     ActiveProject.OffsetX += (e.X - LastCanvasX);
                     ActiveProject.OffsetY += (e.Y - LastCanavsY);
-                    Invalidate();
                 }
-
-                if (e.Button == MouseButtons.Left)
+                if (ActiveTool != null)
                 {
                     int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
                     int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
                     if (projectX != LastProjectX || projectY != LastProjectY)
                     {
                         using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
-                        {
-                            g.DrawLine(new Pen(Color.Orange), LastProjectX, LastProjectY, projectX, projectY);
-                        }
-                        Invalidate();
+                            ActiveTool.MouseDragged(e.Button, projectX, projectY, LastProjectX, LastProjectY, g);
                     }
                 }
             }
-                
-
+            Invalidate();
             UpdateLastMousePos(e.X, e.Y);
         }
 
@@ -141,6 +126,36 @@ namespace Pixel_Studio.Controls
         }
 
 
+        public void ProjectToCanvas(int x, int y, out int canvasX, out int canvasY)
+        {
+            if (ActiveProject != null)
+            {
+                canvasX = (int)(x * ActiveProject.Scale + ActiveProject.DrawX);
+                canvasY = (int)(y * ActiveProject.Scale + ActiveProject.DrawY);
+            }
+            else
+            {
+                canvasX = -1;
+                canvasY = -1;
+            }
+        }
+
+        public void CanvasToProject(int x, int y, out int projectX, out int projectY)
+        {
+            if (ActiveProject != null)
+            {
+                projectX = (int)((x - ActiveProject.DrawX) / ActiveProject.Scale);
+                projectY = (int)((y - ActiveProject.DrawY) / ActiveProject.Scale);
+            }
+            else
+            {
+                projectX = -1;
+                projectY = -1;
+            }
+        }
+
+
+        // Variable Updaters //
         private void UpdateLastMousePos(int x, int y)
         {
             LastCanvasX = x;

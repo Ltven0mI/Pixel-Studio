@@ -2,6 +2,7 @@
 using Pixel_Studio.Controls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +33,9 @@ namespace Pixel_Studio
 
 
         // Callbacks //
-        public virtual void MouseDown(MouseButtons btn, int x, int y) { }
-        public virtual void MouseDragged(MouseButtons btn, int x1, int y1, int x2, int y2) { }
-        public virtual void MouseUp(MouseButtons btn, int x, int y) { }
+        public virtual void MouseDown(MouseButtons btn, int x, int y, Graphics g) { }
+        public virtual void MouseDragged(MouseButtons btn, int x1, int y1, int x2, int y2, Graphics g) { }
+        public virtual void MouseUp(MouseButtons btn, int x, int y, Graphics g) { }
 
         public virtual void OnPaint(PaintEventArgs e) { }
 
