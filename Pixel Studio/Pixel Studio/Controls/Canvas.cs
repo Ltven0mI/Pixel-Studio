@@ -58,6 +58,18 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+
+            //if (e.Button == MouseButtons.Left)
+            //{
+            //    if (ActiveProject != null)
+            //    {
+            //        int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+            //        int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+            //        ActiveProject.ProjectObject.GetImage().SetPixel(projectX, projectY, Color.Orange);
+            //        Invalidate();
+            //    }
+            //}
+
             UpdateLastMousePos(e.X, e.Y);
         }
 
@@ -65,15 +77,30 @@ namespace Pixel_Studio.Controls
         {
             base.OnMouseMove(e);
 
-            if (e.Button == MouseButtons.Middle)
+            if (ActiveProject != null)
             {
-                if (ActiveProject != null)
+                if (e.Button == MouseButtons.Middle)
                 {
                     ActiveProject.OffsetX += (e.X - LastCanvasX);
                     ActiveProject.OffsetY += (e.Y - LastCanavsY);
                     Invalidate();
                 }
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+                    int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+                    if (projectX != LastProjectX || projectY != LastProjectY)
+                    {
+                        using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                        {
+                            g.DrawLine(new Pen(Color.Orange), LastProjectX, LastProjectY, projectX, projectY);
+                        }
+                        Invalidate();
+                    }
+                }
             }
+                
 
             UpdateLastMousePos(e.X, e.Y);
         }
