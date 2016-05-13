@@ -18,7 +18,7 @@ namespace Pixel_Studio
         public ProjectHandler ProjectHandler { get; set; }
         public Canvas Canvas { get { if (ProjectHandler != null) return ProjectHandler.Canvas; else return null; } }
 
-        public enum ProjectType { Image, Animation, Tileset }
+        public enum ProjectType { Image, Animation }
 
         public ProjectType projectType { get; private set; }
         public ProjectObject ProjectObject { get; private set; }
@@ -76,6 +76,7 @@ namespace Pixel_Studio
         public int DrawWidth { get; private set; }
         public int DrawHeight { get; private set; }
 
+
         public float LockedOffsetX { get; private set; }
         public float LockedOffsetY { get; private set; }
 
@@ -101,8 +102,6 @@ namespace Pixel_Studio
                     ProjectObject = new ImageProject();
                     break;
                 case ProjectType.Animation:
-                    break;
-                case ProjectType.Tileset:
                     break;
             }
 
@@ -212,7 +211,6 @@ namespace Pixel_Studio
                 UpdateLockedOffset();
                 UpdateDrawBounds();
             }
-            System.Diagnostics.Debug.WriteLine("Set ISsActive " + IsActive + " " + (Canvas != null) + " " + (ProjectHandler != null));
         }
     }
 }
