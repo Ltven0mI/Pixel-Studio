@@ -64,8 +64,8 @@ namespace Pixel_Studio.Controls
 
             if (ActiveTool != null && ActiveProject != null)
             {
-                int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
-                int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+                int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+                int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
                 using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
                     ActiveTool.MouseDown(e.Button, projectX, projectY, g);
                 Invalidate();
@@ -86,8 +86,8 @@ namespace Pixel_Studio.Controls
                 }
                 if (ActiveTool != null)
                 {
-                    int projectX = (int)((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
-                    int projectY = (int)((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+                    int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+                    int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
                     if (projectX != LastProjectX || projectY != LastProjectY)
                     {
                         using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
@@ -130,8 +130,8 @@ namespace Pixel_Studio.Controls
         {
             if (ActiveProject != null)
             {
-                canvasX = (int)(x * ActiveProject.Scale + ActiveProject.DrawX);
-                canvasY = (int)(y * ActiveProject.Scale + ActiveProject.DrawY);
+                canvasX = (int)Math.Floor(x * ActiveProject.Scale + ActiveProject.DrawX);
+                canvasY = (int)Math.Floor(y * ActiveProject.Scale + ActiveProject.DrawY);
             }
             else
             {
@@ -144,8 +144,8 @@ namespace Pixel_Studio.Controls
         {
             if (ActiveProject != null)
             {
-                projectX = (int)((x - ActiveProject.DrawX) / ActiveProject.Scale);
-                projectY = (int)((y - ActiveProject.DrawY) / ActiveProject.Scale);
+                projectX = (int)Math.Floor((x - ActiveProject.DrawX) / ActiveProject.Scale);
+                projectY = (int)Math.Floor((y - ActiveProject.DrawY) / ActiveProject.Scale);
             }
             else
             {
@@ -162,8 +162,8 @@ namespace Pixel_Studio.Controls
             LastCanavsY = y;
             if (ActiveProject != null)
             {
-                LastProjectX = (int)((x - ActiveProject.DrawX) / ActiveProject.Scale);
-                LastProjectY = (int)((y - ActiveProject.DrawY) / ActiveProject.Scale);
+                LastProjectX = (int)Math.Floor((x - ActiveProject.DrawX) / ActiveProject.Scale);
+                LastProjectY = (int)Math.Floor((y - ActiveProject.DrawY) / ActiveProject.Scale);
             }
         }
 

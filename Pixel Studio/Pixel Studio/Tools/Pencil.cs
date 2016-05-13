@@ -22,6 +22,7 @@ namespace Pixel_Studio.Tools
             base.MouseDragged(btn, x1, y1, x2, y2, g);
             if (btn == MouseButtons.Left)
                 g.DrawLine(new Pen(Color.Orange), x1, y1, x2, y2);
+            System.Diagnostics.Debug.WriteLine(x1 + " " + y1);
         }
     }
 }
