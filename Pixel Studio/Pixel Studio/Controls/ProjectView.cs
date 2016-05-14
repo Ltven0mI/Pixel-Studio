@@ -41,13 +41,26 @@ namespace Pixel_Studio.Controls
                     Project project = ProjectHandler.Projects[i];
 
                     Color tabColor = ThemeManager.ActiveTheme.BackColor;
+                    Color textColor = ThemeManager.ActiveTheme.ForeColor;
+                    Color closeColor = ThemeManager.ActiveTheme.BackColor;
                     if (project == ActiveProject)
+                    {
                         tabColor = ThemeManager.ActiveTheme.TabActiveColor;
+                        closeColor = Color.Orange;
+                    }
                     else if (project == FocusedProject)
+                    {
                         tabColor = ThemeManager.ActiveTheme.TabFocusedColor;
+                        closeColor = Color.Orange;
+                    }
+
+                    int closeBtnSize = Size.Height - BottomLine - 6;
 
                     project.TabRectangle = new Rectangle(i * TabWidth, 0, TabWidth, Size.Height - BottomLine);
+                    project.TabCloseRectangle = new Rectangle(project.TabRectangle.X + project.TabRectangle.Width - closeBtnSize - 3, 3, closeBtnSize, closeBtnSize);
                     e.Graphics.FillRectangle(new SolidBrush(tabColor), project.TabRectangle);
+                    e.Graphics.FillRectangle(new SolidBrush(closeColor), project.TabCloseRectangle);
+                    e.Graphics.DrawString("project", DefaultFont, new SolidBrush(textColor), project.TabRectangle.X, project.TabRectangle.Y);
                 }
             }
         }
