@@ -18,6 +18,8 @@ namespace Pixel_Studio
         public ProjectHandler ProjectHandler { get; set; }
         public Canvas Canvas { get { return ProjectHandler?.Canvas; } }
 
+        public int Index { get; set; }
+
         public enum ProjectType { Image, Animation }
 
         public ProjectType projectType { get; private set; }
@@ -75,6 +77,10 @@ namespace Pixel_Studio
         public int DrawY { get; private set; }
         public int DrawWidth { get; private set; }
         public int DrawHeight { get; private set; }
+
+
+        public Rectangle TabRectangle { get; set; }
+        public Rectangle TabCloseRectangle { get; set; }
 
 
         public float LockedOffsetX { get; private set; }

@@ -21,9 +21,23 @@ namespace Pixel_Studio.Components
             {
                 if (value != null)
                     value.ProjectHandler = this;
-                else if (canvas != null)
+                if (canvas != null)
                     canvas.ProjectHandler = null;
                 canvas = value;
+            }
+        }
+
+        private ProjectView projectView;
+        public ProjectView ProjectView
+        {
+            get { return projectView; }
+            set
+            {
+                if (value != null)
+                    value.ProjectHandler = this;
+                if (projectView != null)
+                    projectView.ProjectHandler = null;
+                projectView = value;
             }
         }
 
@@ -42,6 +56,11 @@ namespace Pixel_Studio.Components
         public Tool ActiveTool { get; private set; }
 
 
+        // Events //
+        public event EventHandler<ProjectEventArgs> ActiveProjectChanged;
+        public event EventHandler<ProjectEventArgs> ProjectAdded;
+
+
         public ProjectHandler()
         {
             InitializeComponent();
@@ -55,6 +74,8 @@ namespace Pixel_Studio.Components
         {
             if (canvas != null)
                 canvas.Invalidate();
+            if (projectView != null)
+                projectView.Invalidate();
         }
 
 
@@ -67,15 +88,24 @@ namespace Pixel_Studio.Components
                     ActiveProject.IsActive = false;
                 ActiveProject = project;
                 project.IsActive = true;
+                ActiveProjectChanged?.Invoke(this, new ProjectEventArgs(project));
                 Redraw();
             }
+        }
+
+        public void SetActiveProject(int index)
+        {
+            if (index >= 0 && index < Projects.Count)
+                SetActiveProject(Projects[index]);
         }
 
         public void AddProject(Project project)
         {
             project.ProjectHandler = this;
+            project.Index = Projects.Count;
             Projects.Add(project);
             SetActiveProject(project);
+            ProjectAdded?.Invoke(this, new ProjectEventArgs(project));
         }
 
 
@@ -97,6 +127,18 @@ namespace Pixel_Studio.Components
             tool.ProjectHandler = this;
             Tools.Add(tool);
             SetActiveTool(tool);
+        }
+
+
+        // Event Args //
+        public class ProjectEventArgs : EventArgs
+        {
+            public Project Project { get; private set; }
+
+            public ProjectEventArgs(Project project)
+            {
+                Project = project;
+            }
         }
     }
 }

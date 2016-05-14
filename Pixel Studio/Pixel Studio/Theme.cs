@@ -14,5 +14,8 @@ namespace Pixel_Studio
         public Color ForeColor = Color.White;
 
         public Color CanvasBackColor = Color.FromArgb(255, 23, 23, 24);
+
+        public Color TabActiveColor = Color.FromArgb(255, 52, 127, 179);
+        public Color TabFocusedColor = Color.FromArgb(255, 61, 148, 209);
     }
 }
