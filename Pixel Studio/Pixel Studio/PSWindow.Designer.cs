@@ -90,7 +90,7 @@
             this.canvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.canvas.BackColor = System.Drawing.Color.Gainsboro;
+            this.canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(24)))));
             this.canvas.Location = new System.Drawing.Point(0, 24);
             this.canvas.Margin = new System.Windows.Forms.Padding(0);
             this.canvas.Name = "canvas";
@@ -106,11 +106,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1264, 673);
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.menuStrip);
-            this.ForeColor = System.Drawing.Color.Black;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "PSWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

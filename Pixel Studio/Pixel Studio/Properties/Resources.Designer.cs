@@ -59,5 +59,23 @@ namespace Pixel_Studio.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;BackColor&quot;:&quot;34, 34, 36&quot;,&quot;ForeColor&quot;:&quot;White&quot;,&quot;CanvasBackColor&quot;:&quot;23, 23, 24&quot;}.
+        /// </summary>
+        internal static string Theme_Dark {
+            get {
+                return ResourceManager.GetString("Theme_Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;BackColor&quot;:&quot;WhiteSmoke&quot;,&quot;ForeColor&quot;:&quot;Black&quot;,&quot;CanvasBackColor&quot;:&quot;Gainsboro&quot;}.
+        /// </summary>
+        internal static string Theme_Light {
+            get {
+                return ResourceManager.GetString("Theme_Light", resourceCulture);
+            }
+        }
     }
 }

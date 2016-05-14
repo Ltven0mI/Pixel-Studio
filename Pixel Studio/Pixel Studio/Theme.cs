@@ -10,9 +10,9 @@ namespace Pixel_Studio
 {
     public class Theme
     {
-        public Color BackColor = Color.WhiteSmoke;
-        public Color ForeColor = Color.Black;
+        public Color BackColor = Color.FromArgb(255, 34, 34, 36);
+        public Color ForeColor = Color.White;
 
-        public Color CanvasBackColor = Color.Gainsboro;
+        public Color CanvasBackColor = Color.FromArgb(255, 23, 23, 24);
     }
 }

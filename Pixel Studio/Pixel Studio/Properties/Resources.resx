@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>{"BackColor":"34, 34, 36","ForeColor":"White","CanvasBackColor":"23, 23, 24"}</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>{"BackColor":"WhiteSmoke","ForeColor":"Black","CanvasBackColor":"Gainsboro"}</value>
+  </data>
 </root>

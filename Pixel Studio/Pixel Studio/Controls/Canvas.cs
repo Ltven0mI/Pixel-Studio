@@ -33,6 +33,7 @@ namespace Pixel_Studio.Controls
             DoubleBuffered = true;
 
             ThemeManager.ThemeLoaded += ThemeManager_ThemeLoaded;
+            OnLoadedTheme();
         }
 
 
@@ -118,7 +119,7 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
-            if (ActiveProject != null)
+            if (ActiveProject != null && ModifierKeys.HasFlag(Keys.Control))
             {
                 ActiveProject.Scale += ActiveProject.Scale * 0.1f * e.Delta / 120;
                 Invalidate();
