@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Pixel_Studio.Components;
+using System.Drawing.Drawing2D;
 
 namespace Pixel_Studio.Controls
 {
@@ -26,11 +27,22 @@ namespace Pixel_Studio.Controls
         public int LastProjectX { get; private set; }
         public int LastProjectY { get; private set; }
 
+        private Pen BorderPenFore;
+        private Pen BorderPenBack;
+
 
         public Canvas()
         {
             InitializeComponent();
             DoubleBuffered = true;
+
+            BorderPenFore = new Pen(Color.FromArgb(207, 97, 35), 1);
+            BorderPenFore.Alignment = PenAlignment.Outset;
+            BorderPenFore.DashPattern = new float[] { 5, 3 };
+
+            BorderPenBack = new Pen(Color.FromArgb(255, 51, 69, 78), 1);
+            BorderPenBack.Alignment = PenAlignment.Outset;
+
 
             ThemeManager.ThemeLoaded += ThemeManager_ThemeLoaded;
             OnLoadedTheme();
@@ -41,7 +53,11 @@ namespace Pixel_Studio.Controls
         {
             base.OnPaint(e);
             if (ActiveProject != null)
+            {
+                e.Graphics.DrawRectangle(BorderPenBack, ActiveProject.DrawX-1, ActiveProject.DrawY-1, ActiveProject.DrawWidth+1, ActiveProject.DrawHeight+1);
+                e.Graphics.DrawRectangle(BorderPenFore, ActiveProject.DrawX-1, ActiveProject.DrawY-1, ActiveProject.DrawWidth+1, ActiveProject.DrawHeight+1);
                 ActiveProject.Draw(e);
+            }
             if (ActiveTool != null)
                 ActiveTool.OnPaint(e);
         }
