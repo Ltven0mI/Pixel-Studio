@@ -25,6 +25,9 @@ namespace Pixel_Studio.Controls
         public int BottomLine { get; set; } = 3;
 
 
+        private bool LeftDown;
+
+
         public ProjectView()
         {
             InitializeComponent();
@@ -78,28 +81,44 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (FocusedCloseProject != null)
-                ProjectHandler.RemoveProject(FocusedCloseProject);
-            else if (FocusedProject != null)
-                ProjectHandler.SetActiveProject(FocusedProject);
+            if (e.Button == MouseButtons.Left)
+            {
+                LeftDown = true;
+
+                if (FocusedCloseProject != null)
+                    ProjectHandler.RemoveProject(FocusedCloseProject);
+                else if (FocusedProject != null)
+                    ProjectHandler.SetActiveProject(FocusedProject);
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             int index = e.X / TabWidth;
-            if (index >= 0 && index < Projects.Count)
+            if (LeftDown)
+            {
+                if (index != ActiveProject.Index)
+                    ProjectHandler.MoveProject(ActiveProject, index);
+            }
+            else if (index >= 0 && index < Projects.Count)
             {
                 if (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null)
-                {
                     FocusedProject = Projects[index];
-                }
                 if (FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
                     FocusedCloseProject = FocusedProject;
                 else
                     FocusedCloseProject = null;
                 Invalidate();
             }
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            if (e.Button == MouseButtons.Left)
+                LeftDown = false;
         }
 
         protected override void OnMouseLeave(EventArgs e)

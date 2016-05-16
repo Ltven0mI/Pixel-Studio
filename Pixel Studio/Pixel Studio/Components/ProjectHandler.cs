@@ -155,6 +155,17 @@ namespace Pixel_Studio.Components
             }
         }
 
+        public void MoveProject(Project project, int index)
+        {
+            if (Projects.Contains(project) && index >= 0 && index < Projects.Count)
+            {
+                Projects.Remove(project);
+                Projects.Insert(index, project);
+                UpdateProjectIndices();
+                Redraw();
+            }
+        }
+
 
         // Tool Methods //
         public void SetActiveTool(Tool tool)
