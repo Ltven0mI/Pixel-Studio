@@ -95,7 +95,8 @@ namespace Pixel_Studio.Components
                 if (ActiveProject != null)
                     ActiveProject.IsActive = false;
                 ActiveProject = project;
-                project.IsActive = true;
+                if (ActiveProject != null)
+                    ActiveProject.IsActive = true;
                 ActiveProjectChanged?.Invoke(this, new ProjectEventArgs(project));
                 Redraw();
             }
@@ -104,6 +105,16 @@ namespace Pixel_Studio.Components
         public void SetActiveProject(int index)
         {
             if (index >= 0 && index < Projects.Count)
+            {
+                Project project = Projects[index];
+                if (ActiveProject != null)
+                    ActiveProject.IsActive = false;
+                ActiveProject = project;
+                if (ActiveProject != null)
+                    ActiveProject.IsActive = true;
+                ActiveProjectChanged?.Invoke(this, new ProjectEventArgs(project));
+                Redraw();
+            }
                 SetActiveProject(Projects[index]);
         }
 
@@ -125,15 +136,15 @@ namespace Pixel_Studio.Components
                     if (project.Index > 0)
                     {
                         if (project.Index < Projects.Count - 1)
-                            ActiveProject = Projects[project.Index + 1];
+                            SetActiveProject(Projects[project.Index + 1]);
                         else
-                            ActiveProject = Projects[project.Index - 1];
+                            SetActiveProject(Projects[project.Index - 1]);
                     }
                     else
                     {
-                        ActiveProject = null;
+                        SetActiveProject(null);
                         if (Projects.Count > 1)
-                            ActiveProject = Projects[1];
+                            SetActiveProject(Projects[1]);
                     }
                 }
 
