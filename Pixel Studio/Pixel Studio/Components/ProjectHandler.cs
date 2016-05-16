@@ -151,6 +151,10 @@ namespace Pixel_Studio.Components
                 project.Index = -1;
                 Projects.Remove(project);
                 UpdateProjectIndices();
+
+                if (Projects.Count == 0)
+                    ActiveProject = null;
+
                 Redraw();
             }
         }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Pixel_Studio.Components;
+using System.Drawing.Drawing2D;
 
 namespace Pixel_Studio.Controls
 {
@@ -17,6 +18,7 @@ namespace Pixel_Studio.Controls
         public ProjectHandler ProjectHandler { get; set; }
         private List<Project> Projects { get { return ProjectHandler?.Projects; } }
         public Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
+        public Project ActiveCloseProject { get; private set; }
         public Project FocusedProject { get; private set; }
         public Project FocusedCloseProject { get; private set; }
 
@@ -40,6 +42,9 @@ namespace Pixel_Studio.Controls
             base.OnPaint(e);
             if (ProjectHandler != null)
             {
+                e.Graphics.SmoothingMode = SmoothingMode.None;
+                e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+
                 for (int i = 0; i < ProjectHandler.Projects.Count; i++)
                 {
                     Project project = ProjectHandler.Projects[i];
@@ -50,12 +55,18 @@ namespace Pixel_Studio.Controls
                     if (project == ActiveProject)
                     {
                         tabColor = ThemeManager.ActiveTheme.TabActiveColor;
-                        closeColor = Color.Orange;
+                        if (project == ActiveCloseProject && FocusedCloseProject != null)
+                            closeColor = ThemeManager.ActiveTheme.TabFocusedCloseActiveColor;
+                        else
+                            closeColor = ThemeManager.ActiveTheme.TabFocusedCloseFocusedColor;
                     }
                     else if (project == FocusedProject)
                     {
                         tabColor = ThemeManager.ActiveTheme.TabFocusedColor;
-                        closeColor = Color.Orange;
+                        if (project == ActiveCloseProject && project == FocusedCloseProject)
+                            closeColor = ThemeManager.ActiveTheme.TabActiveCloseActiveColor;
+                        else
+                            closeColor = ThemeManager.ActiveTheme.TabFocusedCloseFocusedColor;
                     }
 
                     int closeBtnSize = Size.Height - BottomLine - 6;
@@ -63,7 +74,13 @@ namespace Pixel_Studio.Controls
                     project.TabRectangle = new Rectangle(i * TabWidth, 0, TabWidth, Size.Height - BottomLine);
                     project.TabCloseRectangle = new Rectangle(project.TabRectangle.X + project.TabRectangle.Width - closeBtnSize - 3, 3, closeBtnSize, closeBtnSize);
                     e.Graphics.FillRectangle(new SolidBrush(tabColor), project.TabRectangle);
-                    e.Graphics.FillRectangle(new SolidBrush(closeColor), project.TabCloseRectangle);
+
+                    if (project == FocusedCloseProject || project == ActiveCloseProject)
+                        e.Graphics.FillRectangle(new SolidBrush(closeColor), project.TabCloseRectangle);
+
+                    if (project == ActiveProject || project == FocusedProject)
+                        e.Graphics.DrawImage(Properties.Resources.tab_close_active, project.TabCloseRectangle);
+
                     e.Graphics.DrawString("project", DefaultFont, new SolidBrush(textColor), project.TabRectangle.X, project.TabRectangle.Y);
                 }
             }
@@ -86,9 +103,10 @@ namespace Pixel_Studio.Controls
                 LeftDown = true;
 
                 if (FocusedCloseProject != null)
-                    ProjectHandler.RemoveProject(FocusedCloseProject);
+                    ActiveCloseProject = FocusedCloseProject;
                 else if (FocusedProject != null)
                     ProjectHandler.SetActiveProject(FocusedProject);
+                Invalidate();
             }
         }
 
@@ -98,14 +116,15 @@ namespace Pixel_Studio.Controls
             int index = e.X / TabWidth;
             if (LeftDown)
             {
-                if (index != ActiveProject.Index)
+                if (index != ActiveProject.Index && ActiveCloseProject == null)
                     ProjectHandler.MoveProject(ActiveProject, index);
             }
-            else if (index >= 0 && index < Projects.Count)
+
+            if (index >= 0 && index < Projects.Count)
             {
-                if (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null)
+                if (!LeftDown && (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null))
                     FocusedProject = Projects[index];
-                if (FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
+                if ((!LeftDown || ActiveCloseProject != null && ActiveCloseProject == FocusedProject) && FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
                     FocusedCloseProject = FocusedProject;
                 else
                     FocusedCloseProject = null;
@@ -118,7 +137,13 @@ namespace Pixel_Studio.Controls
             base.OnMouseUp(e);
 
             if (e.Button == MouseButtons.Left)
+            {
                 LeftDown = false;
+                if (FocusedCloseProject != null && ActiveCloseProject != null && FocusedCloseProject == ActiveCloseProject)
+                    ProjectHandler.RemoveProject(ActiveCloseProject);
+                FocusedCloseProject = null;
+                ActiveCloseProject = null;
+            }
         }
 
         protected override void OnMouseLeave(EventArgs e)
