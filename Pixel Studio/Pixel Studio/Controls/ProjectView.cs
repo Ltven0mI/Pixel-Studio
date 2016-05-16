@@ -18,6 +18,7 @@ namespace Pixel_Studio.Controls
         private List<Project> Projects { get { return ProjectHandler?.Projects; } }
         public Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
         public Project FocusedProject { get; private set; }
+        public Project FocusedCloseProject { get; private set; }
 
 
         public int TabWidth { get; set; } = 110;
@@ -77,7 +78,9 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (FocusedProject != null)
+            if (FocusedCloseProject != null)
+                ProjectHandler.RemoveProject(FocusedCloseProject);
+            else if (FocusedProject != null)
                 ProjectHandler.SetActiveProject(FocusedProject);
         }
 
@@ -85,9 +88,16 @@ namespace Pixel_Studio.Controls
         {
             base.OnMouseMove(e);
             int index = e.X / TabWidth;
-            if (index >= 0 && index < Projects.Count && (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null))
+            if (index >= 0 && index < Projects.Count)
             {
-                FocusedProject = Projects[index];
+                if (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null)
+                {
+                    FocusedProject = Projects[index];
+                }
+                if (FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
+                    FocusedCloseProject = FocusedProject;
+                else
+                    FocusedCloseProject = null;
                 Invalidate();
             }
         }

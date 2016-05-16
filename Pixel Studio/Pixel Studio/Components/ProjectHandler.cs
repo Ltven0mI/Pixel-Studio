@@ -3,7 +3,6 @@ using Pixel_Studio.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,6 +78,15 @@ namespace Pixel_Studio.Components
         }
 
 
+        private void UpdateProjectIndices()
+        {
+            for (int i=0; i < Projects.Count; i++)
+            {
+                Projects[i].Index = i;
+            }
+        }
+
+
         // Project Methods //
         public void SetActiveProject(Project project)
         {
@@ -106,6 +114,34 @@ namespace Pixel_Studio.Components
             Projects.Add(project);
             SetActiveProject(project);
             ProjectAdded?.Invoke(this, new ProjectEventArgs(project));
+        }
+
+        public void RemoveProject(Project project)
+        {
+            if (Projects.Contains(project))
+            {
+                if (project == ActiveProject)
+                {
+                    if (project.Index > 0)
+                    {
+                        if (project.Index < Projects.Count - 1)
+                            ActiveProject = Projects[project.Index + 1];
+                        else
+                            ActiveProject = Projects[project.Index - 1];
+                    }
+                    else
+                    {
+                        ActiveProject = null;
+                        if (Projects.Count > 1)
+                            ActiveProject = Projects[1];
+                    }
+                }
+
+                project.Index = -1;
+                Projects.Remove(project);
+                UpdateProjectIndices();
+                Redraw();
+            }
         }
 
 
