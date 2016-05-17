@@ -113,22 +113,26 @@ namespace Pixel_Studio.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            int index = e.X / TabWidth;
-            if (LeftDown)
-            {
-                if (index != ActiveProject.Index && ActiveCloseProject == null)
-                    ProjectHandler.MoveProject(ActiveProject, index);
-            }
 
-            if (index >= 0 && index < Projects.Count)
+            if (ActiveProject != null)
             {
-                if (!LeftDown && (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null))
-                    FocusedProject = Projects[index];
-                if ((!LeftDown || ActiveCloseProject != null && ActiveCloseProject == FocusedProject) && FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
-                    FocusedCloseProject = FocusedProject;
-                else
-                    FocusedCloseProject = null;
-                Invalidate();
+                int index = e.X / TabWidth;
+                if (LeftDown)
+                {
+                    if (index != ActiveProject.Index && ActiveCloseProject == null)
+                        ProjectHandler.MoveProject(ActiveProject, index);
+                }
+
+                if (index >= 0 && index < Projects.Count)
+                {
+                    if (!LeftDown && (FocusedProject != null && index != FocusedProject.Index || FocusedProject == null))
+                        FocusedProject = Projects[index];
+                    if ((!LeftDown || ActiveCloseProject != null && ActiveCloseProject == FocusedProject) && FocusedProject.TabCloseRectangle.Contains(e.X, e.Y))
+                        FocusedCloseProject = FocusedProject;
+                    else
+                        FocusedCloseProject = null;
+                    Invalidate();
+                }
             }
         }
 
@@ -143,6 +147,7 @@ namespace Pixel_Studio.Controls
                     ProjectHandler.RemoveProject(ActiveCloseProject);
                 FocusedCloseProject = null;
                 ActiveCloseProject = null;
+                Invalidate();
             }
         }
 
