@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pixel_Studio.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,7 +45,11 @@ namespace Pixel_Studio
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            projectHandler.AddProject(new Project(Project.ProjectType.Image, "Project"));
+            NewProjectDialog dialog = new NewProjectDialog();
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                projectHandler.AddProject(new Project(Project.ProjectType.Image, dialog.ProjectName));
+            }
         }
     }
 }
