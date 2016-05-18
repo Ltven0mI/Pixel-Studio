@@ -44,7 +44,7 @@ namespace Pixel_Studio
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            projectHandler.AddProject(new Project(Project.ProjectType.Image));
+            projectHandler.AddProject(new Project(Project.ProjectType.Image, "Project"));
         }
     }
 }

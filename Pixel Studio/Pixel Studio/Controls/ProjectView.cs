@@ -81,7 +81,7 @@ namespace Pixel_Studio.Controls
                     if (project == ActiveProject || project == FocusedProject)
                         e.Graphics.DrawImage(Properties.Resources.tab_close_active, project.TabCloseRectangle);
 
-                    e.Graphics.DrawString("project", DefaultFont, new SolidBrush(textColor), project.TabRectangle.X, project.TabRectangle.Y);
+                    e.Graphics.DrawString(ActiveProject.Name, DefaultFont, new SolidBrush(textColor), project.TabRectangle.X, project.TabRectangle.Y);
                 }
             }
         }

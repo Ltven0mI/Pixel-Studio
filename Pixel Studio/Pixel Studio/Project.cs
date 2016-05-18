@@ -22,6 +22,7 @@ namespace Pixel_Studio
 
         public enum ProjectType { Image, Animation }
 
+        public string Name { get; private set; }
         public ProjectType projectType { get; private set; }
         public ProjectObject ProjectObject { get; private set; }
 
@@ -99,9 +100,10 @@ namespace Pixel_Studio
         public event EventHandler IsActiveChanged;
 
 
-        public Project(ProjectType projectType)
+        public Project(ProjectType projectType, string name)
         {
             this.projectType = projectType;
+            Name = name;
             switch (projectType)
             {
                 case ProjectType.Image:
