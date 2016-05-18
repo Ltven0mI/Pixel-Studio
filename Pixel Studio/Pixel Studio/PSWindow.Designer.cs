@@ -95,7 +95,7 @@
             this.projectView.Margin = new System.Windows.Forms.Padding(0);
             this.projectView.Name = "projectView";
             this.projectView.ProjectHandler = this.projectHandler;
-            this.projectView.Size = new System.Drawing.Size(1264, 30);
+            this.projectView.Size = new System.Drawing.Size(1264, 23);
             this.projectView.TabIndex = 0;
             this.projectView.TabStop = false;
             this.projectView.TabWidth = 110;
@@ -111,11 +111,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(24)))));
-            this.canvas.Location = new System.Drawing.Point(0, 54);
+            this.canvas.Location = new System.Drawing.Point(0, 47);
             this.canvas.Margin = new System.Windows.Forms.Padding(0);
             this.canvas.Name = "canvas";
             this.canvas.ProjectHandler = this.projectHandler;
-            this.canvas.Size = new System.Drawing.Size(1264, 620);
+            this.canvas.Size = new System.Drawing.Size(1264, 627);
             this.canvas.TabIndex = 0;
             // 
             // PSWindow

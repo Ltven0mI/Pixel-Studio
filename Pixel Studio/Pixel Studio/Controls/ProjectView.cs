@@ -42,8 +42,8 @@ namespace Pixel_Studio.Controls
             base.OnPaint(e);
             if (ProjectHandler != null)
             {
-                e.Graphics.SmoothingMode = SmoothingMode.None;
-                e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                //e.Graphics.SmoothingMode = SmoothingMode.None;
+                //e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
                 for (int i = 0; i < ProjectHandler.Projects.Count; i++)
                 {
