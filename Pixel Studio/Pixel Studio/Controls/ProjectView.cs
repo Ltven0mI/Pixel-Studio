@@ -26,6 +26,8 @@ namespace Pixel_Studio.Controls
         public int TabWidth { get; set; } = 110;
         public int BottomLine { get; set; } = 3;
 
+        public StringFormat StringFormat;
+
 
         private bool LeftDown;
 
@@ -34,6 +36,11 @@ namespace Pixel_Studio.Controls
         {
             InitializeComponent();
             DoubleBuffered = true;
+
+            StringFormat = new StringFormat();
+            StringFormat.Alignment = StringAlignment.Near;
+            StringFormat.LineAlignment = StringAlignment.Center;
+            StringFormat.Trimming = StringTrimming.None;
         }
 
 
@@ -81,7 +88,8 @@ namespace Pixel_Studio.Controls
                     if (project == ActiveProject || project == FocusedProject)
                         e.Graphics.DrawImage(Properties.Resources.tab_close_active, project.TabCloseRectangle);
 
-                    e.Graphics.DrawString(project.Name, DefaultFont, new SolidBrush(textColor), project.TabRectangle.X, project.TabRectangle.Y);
+                    Rectangle strinRect = new Rectangle(project.TabRectangle.X, project.TabRectangle.Y, project.TabRectangle.Width - project.TabCloseRectangle.Width - 6, project.TabRectangle.Height);
+                    e.Graphics.DrawString(project.Name, DefaultFont, new SolidBrush(textColor), strinRect, StringFormat);
                 }
             }
         }
