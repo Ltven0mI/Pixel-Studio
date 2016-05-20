@@ -104,6 +104,7 @@
     <Compile Include="ThemeManager.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="Tools\Pencil.cs" />
+    <Compile Include="Utilities\ImageUtil.cs" />
     <EmbeddedResource Include="Controls\Canvas.resx">
       <DependentUpon>Canvas.cs</DependentUpon>
     </EmbeddedResource>
