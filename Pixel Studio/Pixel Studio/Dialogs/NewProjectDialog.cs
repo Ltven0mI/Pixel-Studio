@@ -13,6 +13,8 @@ namespace Pixel_Studio.Dialogs
     public partial class NewProjectDialog : Form
     {
         public string ProjectName { get { return nameTextBox.Text; } }
+        public int ProjectWidth { get { return (int)widthInput.Value; } }
+        public int ProjectHeight { get { return (int)heightInput.Value; } }
 
 
         public NewProjectDialog()

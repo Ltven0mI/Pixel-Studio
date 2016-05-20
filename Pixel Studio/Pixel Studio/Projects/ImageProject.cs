@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pixel_Studio.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,13 +13,9 @@ namespace Pixel_Studio.Projects
         private Bitmap Image;
 
 
-        public ImageProject()
+        public ImageProject(int width, int height)
         {
-            Image = new Bitmap(16, 16);
-            using (Graphics g = Graphics.FromImage(Image))
-            {
-                g.FillRectangle(new SolidBrush(Color.Blue), 0, 0, 16, 16);
-            }
+            Image = ImageUtil.CreateBitmap(width, height, Color.White);
         }
 
 

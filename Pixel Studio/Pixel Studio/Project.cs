@@ -23,6 +23,9 @@ namespace Pixel_Studio
         public enum ProjectType { Image, Animation }
 
         public string Name { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
         public ProjectType projectType { get; private set; }
         public ProjectObject ProjectObject { get; private set; }
 
@@ -100,14 +103,16 @@ namespace Pixel_Studio
         public event EventHandler IsActiveChanged;
 
 
-        public Project(ProjectType projectType, string name)
+        public Project(ProjectType projectType, string name, int width, int height)
         {
             this.projectType = projectType;
             Name = name;
+            Width = width;
+            Height = height;
             switch (projectType)
             {
                 case ProjectType.Image:
-                    ProjectObject = new ImageProject();
+                    ProjectObject = new ImageProject(Width, Height);
                     break;
                 case ProjectType.Animation:
                     break;
