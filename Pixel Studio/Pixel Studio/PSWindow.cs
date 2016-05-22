@@ -1,4 +1,5 @@
-﻿using Pixel_Studio.Dialogs;
+﻿using Pixel_Studio.Controls;
+using Pixel_Studio.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

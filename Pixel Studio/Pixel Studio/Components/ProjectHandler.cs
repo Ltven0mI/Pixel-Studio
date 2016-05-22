@@ -58,6 +58,7 @@ namespace Pixel_Studio.Components
         // Events //
         public event EventHandler<ProjectEventArgs> ActiveProjectChanged;
         public event EventHandler<ProjectEventArgs> ProjectAdded;
+        public event EventHandler<ProjectEventArgs> ProjectRemoved;
 
 
         public ProjectHandler()
@@ -155,6 +156,7 @@ namespace Pixel_Studio.Components
                 if (Projects.Count == 0)
                     ActiveProject = null;
 
+                ProjectRemoved?.Invoke(this, new ProjectEventArgs(project));
                 Redraw();
             }
         }
