@@ -23,5 +23,8 @@ namespace Pixel_Studio
 
         public Color TabActiveCloseFocusedColor = Color.FromArgb(255, 61, 148, 209);
         public Color TabActiveCloseActiveColor = Color.FromArgb(255, 43, 108, 153);
+
+        public Color ProjectButtonFocusedColor = Color.FromArgb(255, 52, 52, 53);
+        public Color ProjectButtonActiveColor = Color.FromArgb(255, 52, 127, 179);
     }
 }

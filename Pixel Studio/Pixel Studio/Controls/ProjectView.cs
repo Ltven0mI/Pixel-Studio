@@ -36,16 +36,6 @@ namespace Pixel_Studio.Controls
             }
         }
 
-        private void ProjectHandler_ProjectAdded(object sender, ProjectHandler.ProjectEventArgs e)
-        {
-            UpdateVisibleProjectCount();
-        }
-
-        private void ProjectHandler_ProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
-        {
-            UpdateVisibleProjectCount();
-        }
-
         private List<Project> Projects { get { return ProjectHandler?.Projects; } }
         public Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
         public Project ActiveCloseProject { get; private set; }
@@ -54,6 +44,7 @@ namespace Pixel_Studio.Controls
 
 
         public int TabWidth { get; set; } = 110;
+        public int ProjectButtonWidth { get; set; } = 20;
         public int BottomLine { get; set; } = 3;
 
         public StringFormat StringFormat;
@@ -62,6 +53,10 @@ namespace Pixel_Studio.Controls
         private bool LeftDown;
 
         private int VisibleProjectCount;
+
+        private Rectangle ProjectButtonRect;
+        private bool ProjectButtonFocused;
+        private ContextMenuStrip ProjectContextMenu;
 
 
         public ProjectView()
@@ -73,8 +68,13 @@ namespace Pixel_Studio.Controls
             StringFormat.Alignment = StringAlignment.Near;
             StringFormat.LineAlignment = StringAlignment.Center;
             StringFormat.Trimming = StringTrimming.None;
-        }
 
+            ProjectContextMenu = new ContextMenuStrip();
+            ProjectContextMenu.ItemClicked += ProjectContextMenu_ItemClicked;
+            ProjectContextMenu.VisibleChanged += ProjectContextMenu_VisibleChanged;
+
+            UpdateProjectButtonRect();
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -123,13 +123,16 @@ namespace Pixel_Studio.Controls
                     e.Graphics.DrawString(project.Name, DefaultFont, new SolidBrush(textColor), strinRect, StringFormat);
                 }
 
-                //ContextMenuStrip projectContextMenu = new ContextMenuStrip();
-                //foreach (Project project in Projects)
-                //{
-                //    projectContextMenu.Items.Add(project.Name);
-                //}
+                if (ProjectButtonFocused || ProjectContextMenu.Visible)
+                {
+                    Color projectButtonColor = ThemeManager.ActiveTheme.ProjectButtonFocusedColor;
+                    
+                    if (ProjectContextMenu.Visible)
+                        projectButtonColor = ThemeManager.ActiveTheme.ProjectButtonActiveColor;
 
-                //projectContextMenu.Show(this, e.Location);
+                    UpdateProjectButtonRect();
+                    e.Graphics.FillRectangle(new SolidBrush(projectButtonColor), ProjectButtonRect);
+                }
             }
         }
 
@@ -153,6 +156,12 @@ namespace Pixel_Studio.Controls
                     ActiveCloseProject = FocusedCloseProject;
                 else if (FocusedProject != null)
                     ProjectHandler.SetActiveProject(FocusedProject);
+
+                if (ProjectButtonRect.Contains(e.Location))
+                    ShowProjectContextMenu();
+                else
+                    ProjectButtonFocused = false;
+
                 Invalidate();
             }
         }
@@ -190,6 +199,17 @@ namespace Pixel_Studio.Controls
                     Invalidate();
                 }
             }
+
+            if (ProjectButtonRect.Contains(e.Location))
+            {
+                    ProjectButtonFocused = true;
+                    Invalidate();
+            }
+            else if (ProjectButtonFocused)
+            {
+                ProjectButtonFocused = false;
+                Invalidate();
+            }
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -212,6 +232,7 @@ namespace Pixel_Studio.Controls
         {
             base.OnMouseLeave(e);
             FocusedProject = null;
+            ProjectButtonFocused = false;
             Invalidate();
         }
 
@@ -220,14 +241,57 @@ namespace Pixel_Studio.Controls
         {
             base.OnSizeChanged(e);
             UpdateVisibleProjectCount();
+            UpdateProjectButtonRect();
             Invalidate();
         }
 
 
-        // Update Variables //
+        // Methods ///////////////////////////////////////////////////////////////////////////////////////////////
+        private void ShowProjectContextMenu()
+        {
+            ProjectContextMenu.Items.Clear();
+
+            foreach (Project project in Projects)
+                ProjectContextMenu.Items.Add(project.Name);
+
+            ProjectContextMenu.Show(this, new Point(ProjectButtonRect.Right, ProjectButtonRect.Bottom), ToolStripDropDownDirection.BelowLeft);
+        }
+
+
+        // Update Variables ///////////////////////////////////////////////////////////////////////////////////////
         private void UpdateVisibleProjectCount()
         {
-            VisibleProjectCount = Size.Width / TabWidth;
+            VisibleProjectCount = (Size.Width - ProjectButtonWidth) / TabWidth;
+        }
+
+        private void UpdateProjectButtonRect()
+        {
+            ProjectButtonRect = new Rectangle(Size.Width - ProjectButtonWidth, 2, ProjectButtonWidth, Size.Height - BottomLine - 5);
+        }
+
+
+        // Event Handlers /////////////////////////////////////////////////////////////////////////////////////////
+
+        // Project Context Menu
+        private void ProjectContextMenu_VisibleChanged(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void ProjectContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ProjectHandler.SetActiveProject(ProjectContextMenu.Items.IndexOf(e.ClickedItem));
+        }
+
+        // Project Handler
+        private void ProjectHandler_ProjectAdded(object sender, ProjectHandler.ProjectEventArgs e)
+        {
+            UpdateVisibleProjectCount();
+        }
+
+        private void ProjectHandler_ProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
+        {
+            UpdateVisibleProjectCount();
         }
     }
 }
