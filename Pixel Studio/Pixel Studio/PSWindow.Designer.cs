@@ -35,13 +35,13 @@
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openThemeDialog = new System.Windows.Forms.OpenFileDialog();
-            this.projectView = new Pixel_Studio.Controls.ProjectView();
-            this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
-            this.canvas = new Pixel_Studio.Controls.Canvas();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectView = new Pixel_Studio.Controls.ProjectView();
+            this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
+            this.canvas = new Pixel_Studio.Controls.Canvas();
             this.menuStrip.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,38 +92,6 @@
             this.openThemeDialog.DefaultExt = "theme";
             this.openThemeDialog.Title = "Load Theme";
             // 
-            // projectView
-            // 
-            this.projectView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.projectView.BottomLine = 3;
-            this.projectView.Location = new System.Drawing.Point(0, 24);
-            this.projectView.Margin = new System.Windows.Forms.Padding(0);
-            this.projectView.Name = "projectView";
-            this.projectView.ProjectHandler = this.projectHandler;
-            this.projectView.Size = new System.Drawing.Size(1264, 23);
-            this.projectView.TabIndex = 0;
-            this.projectView.TabStop = false;
-            this.projectView.TabWidth = 110;
-            // 
-            // projectHandler
-            // 
-            this.projectHandler.Canvas = this.canvas;
-            this.projectHandler.ProjectView = this.projectView;
-            // 
-            // canvas
-            // 
-            this.canvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(24)))));
-            this.canvas.Location = new System.Drawing.Point(0, 47);
-            this.canvas.Margin = new System.Windows.Forms.Padding(0);
-            this.canvas.Name = "canvas";
-            this.canvas.ProjectHandler = this.projectHandler;
-            this.canvas.Size = new System.Drawing.Size(1264, 627);
-            this.canvas.TabIndex = 0;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -150,6 +118,38 @@
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem3.Text = "toolStripMenuItem3";
+            // 
+            // projectView
+            // 
+            this.projectView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.projectView.BottomLine = 3;
+            this.projectView.Location = new System.Drawing.Point(0, 24);
+            this.projectView.Margin = new System.Windows.Forms.Padding(0);
+            this.projectView.Name = "projectView";
+            this.projectView.ProjectButtonWidth = 20;
+            this.projectView.ProjectHandler = this.projectHandler;
+            this.projectView.Size = new System.Drawing.Size(1264, 23);
+            this.projectView.TabIndex = 0;
+            this.projectView.TabStop = false;
+            this.projectView.TabWidth = 110;
+            this.projectView.Visible = false;
+            // 
+            // projectHandler
+            // 
+            this.projectHandler.Canvas = this.canvas;
+            this.projectHandler.ProjectView = this.projectView;
+            // 
+            // canvas
+            // 
+            this.canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(24)))));
+            this.canvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.canvas.Location = new System.Drawing.Point(0, 24);
+            this.canvas.Margin = new System.Windows.Forms.Padding(0);
+            this.canvas.Name = "canvas";
+            this.canvas.ProjectHandler = this.projectHandler;
+            this.canvas.Size = new System.Drawing.Size(1264, 649);
+            this.canvas.TabIndex = 0;
             // 
             // PSWindow
             // 

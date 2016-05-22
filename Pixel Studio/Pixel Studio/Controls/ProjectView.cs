@@ -287,11 +287,15 @@ namespace Pixel_Studio.Controls
         private void ProjectHandler_ProjectAdded(object sender, ProjectHandler.ProjectEventArgs e)
         {
             UpdateVisibleProjectCount();
+            if (!Visible)
+                Visible = true;
         }
 
         private void ProjectHandler_ProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
         {
             UpdateVisibleProjectCount();
+            if (Projects.Count == 0 && Visible)
+                Visible = false;
         }
     }
 }
