@@ -129,6 +129,15 @@ namespace Pixel_Studio.Controls
                 }
             }
 
+            if (ActiveTool != null && ActiveProject != null)
+            {
+                int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
+                int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+                using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                    ActiveTool.MouseUp(e.Button, projectX, projectY, g);
+                Invalidate();
+            }
+
             UpdateLastMousePos(e.X, e.Y);
         }
 
