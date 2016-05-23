@@ -94,8 +94,7 @@
             this.projectView.Location = new System.Drawing.Point(0, 24);
             this.projectView.Margin = new System.Windows.Forms.Padding(0);
             this.projectView.Name = "projectView";
-            this.projectView.ProjectButtonWidth = 20;
-            this.projectView.Size = new System.Drawing.Size(1264, 23);
+            this.projectView.Size = new System.Drawing.Size(1264, 24);
             this.projectView.TabIndex = 0;
             this.projectView.TabStop = false;
             this.projectView.TabWidth = 110;

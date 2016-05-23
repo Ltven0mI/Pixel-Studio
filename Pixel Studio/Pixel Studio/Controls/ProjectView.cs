@@ -20,7 +20,6 @@ namespace Pixel_Studio.Controls
 
 
         public int TabWidth { get; set; } = 110;
-        public int ProjectButtonWidth { get; set; } = 20;
         public int BottomLine { get; set; } = 3;
 
         public StringFormat StringFormat;
@@ -82,12 +81,23 @@ namespace Pixel_Studio.Controls
                         else
                             closeColor = ThemeManager.ActiveTheme.TabFocusedCloseFocusedColor;
                     }
+                    
+                    if (LeftDown && project == ActiveProject && project == FocusedProject && ActiveCloseProject == null)
+                    {
+                        int closeBtnSize = Size.Height - BottomLine - 6;
 
-                    int closeBtnSize = Size.Height - BottomLine - 6;
+                        project.TabRectangle = new Rectangle(i * TabWidth, BottomLine, TabWidth, Size.Height - BottomLine * 2);
+                        project.TabCloseRectangle = new Rectangle(project.TabRectangle.X + project.TabRectangle.Width - closeBtnSize - 3, 3 + BottomLine, closeBtnSize, closeBtnSize);
+                        e.Graphics.FillRectangle(new SolidBrush(tabColor), project.TabRectangle);
+                    }
+                    else
+                    {
+                        int closeBtnSize = Size.Height - BottomLine - 6;
 
-                    project.TabRectangle = new Rectangle(i * TabWidth, 0, TabWidth, Size.Height - BottomLine);
-                    project.TabCloseRectangle = new Rectangle(project.TabRectangle.X + project.TabRectangle.Width - closeBtnSize - 3, 3, closeBtnSize, closeBtnSize);
-                    e.Graphics.FillRectangle(new SolidBrush(tabColor), project.TabRectangle);
+                        project.TabRectangle = new Rectangle(i * TabWidth, 0, TabWidth, Size.Height - BottomLine);
+                        project.TabCloseRectangle = new Rectangle(project.TabRectangle.X + project.TabRectangle.Width - closeBtnSize - 3, 3, closeBtnSize, closeBtnSize);
+                        e.Graphics.FillRectangle(new SolidBrush(tabColor), project.TabRectangle);
+                    }
 
                     if (project == FocusedCloseProject || project == ActiveCloseProject)
                         e.Graphics.FillRectangle(new SolidBrush(closeColor), project.TabCloseRectangle);
@@ -109,6 +119,8 @@ namespace Pixel_Studio.Controls
                     UpdateProjectButtonRect();
                     e.Graphics.FillRectangle(new SolidBrush(projectButtonColor), ProjectButtonRect);
                 }
+
+                e.Graphics.DrawImage(Properties.Resources.projectlist_active, ProjectButtonRect);
             }
         }
 
@@ -252,12 +264,15 @@ namespace Pixel_Studio.Controls
         // Update Variables ///////////////////////////////////////////////////////////////////////////////////////
         private void UpdateVisibleProjectCount()
         {
-            VisibleProjectCount = (Size.Width - ProjectButtonWidth) / TabWidth;
+            VisibleProjectCount = (Size.Width - ProjectButtonRect.Width) / TabWidth;
         }
 
         private void UpdateProjectButtonRect()
         {
-            ProjectButtonRect = new Rectangle(Size.Width - ProjectButtonWidth, 2, ProjectButtonWidth, Size.Height - BottomLine - 5);
+            ProjectButtonRect.Width = Size.Height - BottomLine - 5;
+            ProjectButtonRect.Height = ProjectButtonRect.Width;
+            ProjectButtonRect.X = Size.Width - ProjectButtonRect.Width;
+            ProjectButtonRect.Y = 2;
         }
 
 
