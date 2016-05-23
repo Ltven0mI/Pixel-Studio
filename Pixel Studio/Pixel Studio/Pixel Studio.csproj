@@ -77,6 +77,12 @@
     <Compile Include="Controls\Canvas.Designer.cs">
       <DependentUpon>Canvas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProjectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProjectControl.Designer.cs">
+      <DependentUpon>ProjectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProjectView.cs">
       <SubType>UserControl</SubType>
     </Compile>

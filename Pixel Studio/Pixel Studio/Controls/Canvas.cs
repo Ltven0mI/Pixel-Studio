@@ -12,11 +12,8 @@ using System.Drawing.Drawing2D;
 
 namespace Pixel_Studio.Controls
 {
-    public partial class Canvas : UserControl
+    public partial class Canvas : ProjectControl
     {
-        [Browsable(false)]
-        public ProjectHandler ProjectHandler { get; set; }
-        private Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
         private Tool ActiveTool { get { return ProjectHandler?.ActiveTool; } }
 
 

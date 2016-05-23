@@ -18,10 +18,10 @@ namespace Pixel_Studio.Components
             get { return canvas; }
             set
             {
-                if (value != null)
-                    value.ProjectHandler = this;
                 if (canvas != null)
-                    canvas.ProjectHandler = null;
+                    canvas.SetProjectHandler(this);
+                if (value != null)
+                    value.SetProjectHandler(this);
                 canvas = value;
             }
         }
@@ -32,10 +32,10 @@ namespace Pixel_Studio.Components
             get { return projectView; }
             set
             {
-                if (value != null)
-                    value.ProjectHandler = this;
                 if (projectView != null)
-                    projectView.ProjectHandler = null;
+                    projectView.SetProjectHandler(null);
+                if (value != null)
+                    value.SetProjectHandler(this);
                 projectView = value;
             }
         }

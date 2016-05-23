@@ -12,32 +12,8 @@ using System.Drawing.Drawing2D;
 
 namespace Pixel_Studio.Controls
 {
-    public partial class ProjectView : UserControl
+    public partial class ProjectView : ProjectControl
     {
-        [Browsable(false)]
-        private ProjectHandler projectHandler;
-        public ProjectHandler ProjectHandler
-        {
-            get { return projectHandler; }
-            set
-            {
-                projectHandler = value;
-
-                if (projectHandler != null)
-                {
-                    projectHandler.ProjectRemoved += ProjectHandler_ProjectRemoved;
-                    projectHandler.ProjectAdded += ProjectHandler_ProjectAdded;
-                }
-                else
-                {
-                    projectHandler.ProjectRemoved -= ProjectHandler_ProjectRemoved;
-                    projectHandler.ProjectAdded -= ProjectHandler_ProjectAdded;
-                }
-            }
-        }
-
-        private List<Project> Projects { get { return ProjectHandler?.Projects; } }
-        public Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
         public Project ActiveCloseProject { get; private set; }
         public Project FocusedProject { get; private set; }
         public Project FocusedCloseProject { get; private set; }
@@ -246,6 +222,21 @@ namespace Pixel_Studio.Controls
         }
 
 
+        protected override void OnProjectAdded(object sender, ProjectHandler.ProjectEventArgs e)
+        {
+            base.OnProjectAdded(sender, e);
+            UpdateVisibleProjectCount();
+            if (!Visible) Visible = true;
+        }
+
+        protected override void OnProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
+        {
+            base.OnProjectRemoved(sender, e);
+            UpdateVisibleProjectCount();
+            if (Visible && Projects.Count == 0) Visible = false;
+        }
+
+
         // Methods ///////////////////////////////////////////////////////////////////////////////////////////////
         private void ShowProjectContextMenu()
         {
@@ -270,7 +261,7 @@ namespace Pixel_Studio.Controls
         }
 
 
-        // Event Handlers /////////////////////////////////////////////////////////////////////////////////////////
+        // Event Handlers Methods //
 
         // Project Context Menu
         private void ProjectContextMenu_VisibleChanged(object sender, EventArgs e)
@@ -281,21 +272,6 @@ namespace Pixel_Studio.Controls
         private void ProjectContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ProjectHandler.SetActiveProject(ProjectContextMenu.Items.IndexOf(e.ClickedItem));
-        }
-
-        // Project Handler
-        private void ProjectHandler_ProjectAdded(object sender, ProjectHandler.ProjectEventArgs e)
-        {
-            UpdateVisibleProjectCount();
-            if (!Visible)
-                Visible = true;
-        }
-
-        private void ProjectHandler_ProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
-        {
-            UpdateVisibleProjectCount();
-            if (Projects.Count == 0 && Visible)
-                Visible = false;
         }
     }
 }

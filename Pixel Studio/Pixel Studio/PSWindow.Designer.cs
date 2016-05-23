@@ -40,8 +40,8 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.projectView = new Pixel_Studio.Controls.ProjectView();
-            this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
             this.canvas = new Pixel_Studio.Controls.Canvas();
+            this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
             this.menuStrip.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -128,17 +128,11 @@
             this.projectView.Margin = new System.Windows.Forms.Padding(0);
             this.projectView.Name = "projectView";
             this.projectView.ProjectButtonWidth = 20;
-            this.projectView.ProjectHandler = this.projectHandler;
             this.projectView.Size = new System.Drawing.Size(1264, 23);
             this.projectView.TabIndex = 0;
             this.projectView.TabStop = false;
             this.projectView.TabWidth = 110;
             this.projectView.Visible = false;
-            // 
-            // projectHandler
-            // 
-            this.projectHandler.Canvas = this.canvas;
-            this.projectHandler.ProjectView = this.projectView;
             // 
             // canvas
             // 
@@ -147,9 +141,13 @@
             this.canvas.Location = new System.Drawing.Point(0, 24);
             this.canvas.Margin = new System.Windows.Forms.Padding(0);
             this.canvas.Name = "canvas";
-            this.canvas.ProjectHandler = this.projectHandler;
             this.canvas.Size = new System.Drawing.Size(1264, 649);
             this.canvas.TabIndex = 0;
+            // 
+            // projectHandler
+            // 
+            this.projectHandler.Canvas = this.canvas;
+            this.projectHandler.ProjectView = this.projectView;
             // 
             // PSWindow
             // 
@@ -160,6 +158,7 @@
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "PSWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pixel Studio";
