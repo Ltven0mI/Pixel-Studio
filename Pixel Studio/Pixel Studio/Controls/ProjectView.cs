@@ -286,7 +286,10 @@ namespace Pixel_Studio.Controls
 
         private void ProjectContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            ProjectHandler.SetActiveProject(ProjectContextMenu.Items.IndexOf(e.ClickedItem));
+            Project project = Projects[ProjectContextMenu.Items.IndexOf(e.ClickedItem)];
+            if (project.Index >= VisibleProjectCount)
+                ProjectHandler.MoveProject(project, Math.Min(VisibleProjectCount - 1, Projects.Count-1));
+            ProjectHandler.SetActiveProject(project);
         }
     }
 }
