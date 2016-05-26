@@ -32,6 +32,25 @@ namespace Pixel_Studio
         }
 
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (e.KeyCode == Keys.Z)
+                {
+                    projectHandler.Undo();
+                    e.Handled = true;
+                }
+                if (e.KeyCode == Keys.Y)
+                {
+                    projectHandler.Redo();
+                    e.Handled = true;
+                }
+            }
+        }
+
+
         // Theme Loading //
         private void OnLoadedTheme()
         {

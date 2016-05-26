@@ -123,6 +123,7 @@
             this.Controls.Add(this.projectView);
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.menuStrip);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "PSWindow";

@@ -29,6 +29,8 @@ namespace Pixel_Studio
         public ProjectType projectType { get; private set; }
         public ProjectObject ProjectObject { get; private set; }
 
+        public ProjectHistory History { get; private set; }
+
 
         private float offsetX;
         public float OffsetX
@@ -119,6 +121,7 @@ namespace Pixel_Studio
             }
 
             Scale = 8;
+            History = new ProjectHistory(this);
         }
 
 
@@ -223,6 +226,115 @@ namespace Pixel_Studio
                 UpdateOffsetBounds();
                 UpdateLockedOffset();
                 UpdateDrawBounds();
+            }
+        }
+
+
+        public void Revert()
+        {
+            ProjectObject.Revert();
+        }
+
+
+        // Project History //
+        public class ProjectHistory
+        {
+            private Project Project;
+
+            private List<Change> UndoPool;
+            private List<Change> RedoPool;
+
+
+            public ProjectHistory(Project project)
+            {
+                Project = project;
+                UndoPool = new List<Change>();
+                RedoPool = new List<Change>();
+            }
+
+
+            public void Undo()
+            {
+                if (UndoPool.Count > 0)
+                {
+                    Change change = UndoPool[UndoPool.Count - 1];
+                    UndoPool.RemoveAt(UndoPool.Count - 1);
+                    RedoPool.Add(change);
+
+                    if (UndoPool.Count > 0)
+                    {
+                        UndoPool[UndoPool.Count - 1].RevertTo(Project);
+                    }
+                    else
+                    {
+                        Project.Revert();
+                    }
+                }
+            }
+
+            public void Redo()
+            {
+                if (RedoPool.Count > 0)
+                {
+                    Change change = RedoPool[RedoPool.Count - 1];
+                    RedoPool.RemoveAt(RedoPool.Count - 1);
+                    UndoPool.Add(change);
+                    change.RevertTo(Project);
+                }
+            }
+
+
+            public void AddChange(Change change)
+            {
+                UndoPool.Add(change);
+                RedoPool.Clear();
+            }
+
+
+            // Change Types //
+            public interface Change
+            {
+                void RevertTo(Project project);
+            }
+
+            // Graphical Change //
+            public class GraphicalChange : Change
+            {
+                public Bitmap Image;
+                public int X { get; private set; }
+                public int Y { get; private set; }
+
+                public int LayerIndex { get; private set; }
+                public int FrameIndex { get; private set; }
+
+
+                public GraphicalChange(Bitmap image, int x, int y, int layerIndex)
+                {
+                    Image = image;
+                    X = x;
+                    Y = y;
+                    LayerIndex = layerIndex;
+                    FrameIndex = -1;
+                }
+
+                public GraphicalChange(Bitmap image, int x, int y, int layerIndex, int frameIndex)
+                {
+                    Image = image;
+                    X = x;
+                    Y = y;
+                    LayerIndex = layerIndex;
+                    FrameIndex = frameIndex;
+                }
+
+                public void RevertTo(Project project)
+                {
+                    using (Graphics g = Graphics.FromImage(project.ProjectObject.GetImage())) {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                        g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                        g.DrawImage(Image, X, Y);
+                    }
+                }
             }
         }
     }

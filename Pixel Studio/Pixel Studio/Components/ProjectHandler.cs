@@ -70,6 +70,19 @@ namespace Pixel_Studio.Components
         }
 
 
+        public void Undo()
+        {
+            ActiveProject?.History.Undo();
+            Canvas.Invalidate();
+        }
+
+        public void Redo()
+        {
+            ActiveProject?.History.Redo();
+            Canvas.Invalidate();
+        }
+
+
         public void Redraw()
         {
             if (canvas != null)

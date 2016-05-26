@@ -80,6 +80,7 @@ namespace Pixel_Studio.Controls
             {
                 int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
                 int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
+
                 using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
                     ActiveTool.MouseDown(e.Button, projectX, projectY, g);
                 Invalidate();

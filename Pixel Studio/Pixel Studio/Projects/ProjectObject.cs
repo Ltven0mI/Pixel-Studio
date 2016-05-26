@@ -10,5 +10,6 @@ namespace Pixel_Studio.Projects
     public interface ProjectObject
     {
         Bitmap GetImage();
+        void Revert();
     }
 }
