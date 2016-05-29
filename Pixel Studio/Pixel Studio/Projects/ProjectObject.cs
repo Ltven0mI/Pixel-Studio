@@ -4,11 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Pixel_Studio.Projects
 {
     public interface ProjectObject
     {
+        void Draw(PaintEventArgs e, int x, int y, int width, int height);
         Bitmap GetImage();
         void Revert();
     }

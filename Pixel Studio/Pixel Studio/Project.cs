@@ -127,11 +127,12 @@ namespace Pixel_Studio
 
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            //e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            //e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-            Bitmap image = ProjectObject.GetImage();
-            e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
+            //Bitmap image = ProjectObject.GetImage();
+            //e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
+            ProjectObject.Draw(e, DrawX, DrawY, DrawWidth, DrawHeight);
         }
 
 
