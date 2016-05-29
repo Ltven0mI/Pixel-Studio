@@ -37,7 +37,7 @@ namespace Pixel_Studio
         public virtual void MouseDragged(MouseButtons btn, int x1, int y1, int x2, int y2, Graphics g) { }
         public virtual void MouseUp(MouseButtons btn, int x, int y, Graphics g) { }
 
-        public virtual void OnPaint(PaintEventArgs e) { }
+        public virtual void OnPaint(PaintEventArgs e, int x, int y) { }
 
 
         // Event Methods //

@@ -55,8 +55,8 @@ namespace Pixel_Studio.Controls
                 e.Graphics.DrawRectangle(BorderPenFore, ActiveProject.DrawX-1, ActiveProject.DrawY-1, ActiveProject.DrawWidth+1, ActiveProject.DrawHeight+1);
                 ActiveProject.Draw(e);
             }
-            if (ActiveTool != null)
-                ActiveTool.OnPaint(e);
+            if (ActiveTool != null && ContainsMouse)
+                ActiveTool.OnPaint(e, LastProjectX, LastProjectY);
         }
 
 
@@ -146,7 +146,20 @@ namespace Pixel_Studio.Controls
             {
                 ActiveProject.Scale += ActiveProject.Scale * 0.1f * e.Delta / 120;
                 Invalidate();
+                UpdateLastMousePos(e.X, e.Y);
             }
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            Invalidate();
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            Invalidate();
         }
 
 

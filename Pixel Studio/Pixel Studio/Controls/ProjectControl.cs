@@ -19,6 +19,11 @@ namespace Pixel_Studio.Controls
         public List<Project> Projects { get { return ProjectHandler?.Projects; } }
         [Browsable(false)]
         public Project ActiveProject { get { return ProjectHandler?.ActiveProject; } }
+        [Browsable(false)]
+        public bool ContainsMouse { get; private set; }
+
+        // Event Handlers //
+        public event EventHandler ContainsMouseChanged;
 
 
         public ProjectControl()
@@ -42,9 +47,23 @@ namespace Pixel_Studio.Controls
             ProjectHandler = projectHandler;
         }
 
-
         // Event Handler Methods //
         protected virtual void OnProjectAdded(object sender, ProjectHandler.ProjectEventArgs e) { }
         protected virtual void OnProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e) { }
+
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            ContainsMouse = true;
+            ContainsMouseChanged?.Invoke(this, new EventArgs());
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            ContainsMouse = false;
+            ContainsMouseChanged?.Invoke(this, new EventArgs());
+        }
     }
 }
