@@ -70,6 +70,8 @@ namespace Pixel_Studio.Projects
         public Bitmap Image;
         public string Name;
 
+        public Rectangle TabRectangle;
+
         public ImageLayer(string name, int width, int height)
         {
             Name = name;

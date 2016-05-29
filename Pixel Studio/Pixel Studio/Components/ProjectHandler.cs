@@ -1,4 +1,5 @@
 ﻿using Pixel_Studio.Controls;
+using Pixel_Studio.Projects;
 using Pixel_Studio.Tools;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,20 @@ namespace Pixel_Studio.Components
             }
         }
 
+        private LayerView layerView;
+        public LayerView LayerView
+        {
+            get { return layerView; }
+            set
+            {
+                if (layerView != null)
+                    layerView.SetProjectHandler(null);
+                if (value != null)
+                    value.SetProjectHandler(this);
+                layerView = value;
+            }
+        }
+
 
         // Projects //
         [Browsable(false)]
@@ -73,13 +88,19 @@ namespace Pixel_Studio.Components
         public void Undo()
         {
             ActiveProject?.History.Undo();
-            Canvas.Invalidate();
+            if (canvas != null)
+                canvas.Invalidate();
+            if (layerView != null)
+                layerView.Invalidate();
         }
 
         public void Redo()
         {
             ActiveProject?.History.Redo();
-            Canvas.Invalidate();
+            if (canvas != null)
+                canvas.Invalidate();
+            if (layerView != null)
+                layerView.Invalidate();
         }
 
 
@@ -89,15 +110,25 @@ namespace Pixel_Studio.Components
                 canvas.Invalidate();
             if (projectView != null)
                 projectView.Invalidate();
+            if (layerView != null)
+                layerView.Invalidate();
         }
 
 
         private void UpdateProjectIndices()
         {
             for (int i=0; i < Projects.Count; i++)
-            {
                 Projects[i].Index = i;
-            }
+        }
+
+        private void SetControlsVisible(bool visible)
+        {
+            if (Canvas != null)
+                Canvas.Visible = visible;
+            if (ProjectView != null)
+                ProjectView.Visible = visible;
+            if (LayerView != null)
+                LayerView.Visible = visible;
         }
 
 
@@ -139,6 +170,9 @@ namespace Pixel_Studio.Components
             Projects.Add(project);
             SetActiveProject(project);
             ProjectAdded?.Invoke(this, new ProjectEventArgs(project));
+            if (Projects.Count == 1)
+                SetControlsVisible(true);
+            Redraw();
         }
 
         public void RemoveProject(Project project)
@@ -170,6 +204,10 @@ namespace Pixel_Studio.Components
                     ActiveProject = null;
 
                 ProjectRemoved?.Invoke(this, new ProjectEventArgs(project));
+
+                if (Projects.Count == 0)
+                    SetControlsVisible(false);
+
                 Redraw();
             }
         }
@@ -181,6 +219,15 @@ namespace Pixel_Studio.Components
                 Projects.Remove(project);
                 Projects.Insert(index, project);
                 UpdateProjectIndices();
+                Redraw();
+            }
+        }
+
+        public void NewLayer(string name)
+        {
+            if (ActiveProject != null && ActiveProject.projectType == Project.ProjectType.Image)
+            {
+                ((ImageProject)ActiveProject.ProjectObject).NewLayer(name);
                 Redraw();
             }
         }

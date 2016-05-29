@@ -71,5 +71,13 @@ namespace Pixel_Studio
                 projectHandler.AddProject(new Project(Project.ProjectType.Image, dialog.ProjectName, dialog.ProjectWidth, dialog.ProjectHeight));
             }
         }
+
+        private void newLayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (projectHandler != null)
+            {
+                projectHandler.NewLayer("test");
+            }
+        }
     }
 }

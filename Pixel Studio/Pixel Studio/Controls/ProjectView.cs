@@ -238,14 +238,12 @@ namespace Pixel_Studio.Controls
         {
             base.OnProjectAdded(sender, e);
             UpdateVisibleProjectCount();
-            if (!Visible) Visible = true;
         }
 
         protected override void OnProjectRemoved(object sender, ProjectHandler.ProjectEventArgs e)
         {
             base.OnProjectRemoved(sender, e);
             UpdateVisibleProjectCount();
-            if (Visible && Projects.Count == 0) Visible = false;
         }
 
 
@@ -274,9 +272,6 @@ namespace Pixel_Studio.Controls
             ProjectButtonRect.X = Size.Width - ProjectButtonRect.Width;
             ProjectButtonRect.Y = 2;
         }
-
-
-        // Event Handlers Methods //
 
         // Project Context Menu
         private void ProjectContextMenu_VisibleChanged(object sender, EventArgs e)
