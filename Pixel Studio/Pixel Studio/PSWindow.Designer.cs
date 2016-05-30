@@ -33,9 +33,9 @@
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openThemeDialog = new System.Windows.Forms.OpenFileDialog();
             this.layerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openThemeDialog = new System.Windows.Forms.OpenFileDialog();
             this.layerView = new Pixel_Studio.Controls.LayerView();
             this.projectView = new Pixel_Studio.Controls.ProjectView();
             this.canvas = new Pixel_Studio.Controls.Canvas();
@@ -85,11 +85,6 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // openThemeDialog
-            // 
-            this.openThemeDialog.DefaultExt = "theme";
-            this.openThemeDialog.Title = "Load Theme";
-            // 
             // layerToolStripMenuItem
             // 
             this.layerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -101,21 +96,26 @@
             // newLayerToolStripMenuItem
             // 
             this.newLayerToolStripMenuItem.Name = "newLayerToolStripMenuItem";
-            this.newLayerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newLayerToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.newLayerToolStripMenuItem.Text = "NewLayer";
             this.newLayerToolStripMenuItem.Click += new System.EventHandler(this.newLayerToolStripMenuItem_Click);
+            // 
+            // openThemeDialog
+            // 
+            this.openThemeDialog.DefaultExt = "theme";
+            this.openThemeDialog.Title = "Load Theme";
             // 
             // layerView
             // 
             this.layerView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.layerView.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.layerView.Location = new System.Drawing.Point(0, 597);
+            this.layerView.Location = new System.Drawing.Point(0, 522);
             this.layerView.Margin = new System.Windows.Forms.Padding(0);
             this.layerView.Name = "layerView";
-            this.layerView.Size = new System.Drawing.Size(1264, 75);
+            this.layerView.Size = new System.Drawing.Size(1264, 150);
             this.layerView.TabHeight = 25;
             this.layerView.TabIndex = 2;
+            this.layerView.TabWidth = 400;
             this.layerView.Visible = false;
             // 
             // projectView
@@ -142,7 +142,7 @@
             this.canvas.Location = new System.Drawing.Point(0, 48);
             this.canvas.Margin = new System.Windows.Forms.Padding(0);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(1264, 549);
+            this.canvas.Size = new System.Drawing.Size(1264, 474);
             this.canvas.TabIndex = 0;
             this.canvas.Visible = false;
             // 

@@ -39,7 +39,10 @@ namespace Pixel_Studio
             {
                 if (e.KeyCode == Keys.Z)
                 {
-                    projectHandler.Undo();
+                    if (ModifierKeys.HasFlag(Keys.Shift))
+                        projectHandler.Redo();
+                    else
+                        projectHandler.Undo();
                     e.Handled = true;
                 }
                 if (e.KeyCode == Keys.Y)

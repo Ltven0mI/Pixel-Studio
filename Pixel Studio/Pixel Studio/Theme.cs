@@ -15,6 +15,8 @@ namespace Pixel_Studio
 
         public Color CanvasBackColor = Color.FromArgb(255, 23, 23, 24);
 
+
+        // Project View Colors //
         public Color TabActiveColor = Color.FromArgb(255, 52, 127, 179);
         public Color TabFocusedColor = Color.FromArgb(255, 61, 148, 209);
 
@@ -26,5 +28,19 @@ namespace Pixel_Studio
 
         public Color ProjectButtonFocusedColor = Color.FromArgb(255, 52, 52, 53);
         public Color ProjectButtonActiveColor = Color.FromArgb(255, 52, 127, 179);
+
+
+        // Layer View Colors //
+        public Color LayerButtonIdleTop = Color.FromArgb(255, 36, 36, 38);
+        public Color LayerButtonIdleBot = Color.FromArgb(255, 39, 39, 41);
+        public Color LayerButtonIdleAlt = Color.FromArgb(255, 28, 28, 30);
+
+        public Color LayerButtonFocusedTop = Color.FromArgb(255, 46, 46, 48);
+        public Color LayerButtonFocusedBot = Color.FromArgb(255, 41, 41, 42);
+        public Color LayerButtonFocusedAlt = Color.FromArgb(255, 34, 34, 36);
+
+        public Color LayerButtonActiveTop = Color.FromArgb(255, 23, 23, 24);
+        public Color LayerButtonActiveBot = Color.FromArgb(255, 18, 18, 18);
+        public Color LayerButtonActiveAlt = Color.FromArgb(255, 62, 123, 152);
     }
 }

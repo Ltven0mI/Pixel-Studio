@@ -11,7 +11,7 @@ using Pixel_Studio.Components;
 
 namespace Pixel_Studio.Controls
 {
-    public abstract partial class ProjectControl : UserControl
+    public partial class ProjectControl : UserControl
     {
         [Browsable(false)]
         public ProjectHandler ProjectHandler { get; private set; }
