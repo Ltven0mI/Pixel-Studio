@@ -271,6 +271,8 @@ namespace Pixel_Studio
 
         public int Index;
 
+        public Rectangle TabRectangle;
+
 
         public ProjectLayer(string name, int width, int height)
         {

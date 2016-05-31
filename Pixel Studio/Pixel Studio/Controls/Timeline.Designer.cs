@@ -1,6 +1,6 @@
 ﻿namespace Pixel_Studio.Controls
 {
-    partial class LayerView
+    partial class Timeline
     {
         /// <summary> 
         /// Required designer variable.

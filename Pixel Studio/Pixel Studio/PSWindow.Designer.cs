@@ -36,7 +36,7 @@
             this.layerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openThemeDialog = new System.Windows.Forms.OpenFileDialog();
-            this.layerView = new Pixel_Studio.Controls.LayerView();
+            this.layerView = new Pixel_Studio.Controls.Timeline();
             this.projectView = new Pixel_Studio.Controls.ProjectView();
             this.canvas = new Pixel_Studio.Controls.Canvas();
             this.projectHandler = new Pixel_Studio.Components.ProjectHandler();
@@ -185,7 +185,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
         private Controls.ProjectView projectView;
-        private Controls.LayerView layerView;
+        private Controls.Timeline layerView;
         private System.Windows.Forms.ToolStripMenuItem layerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newLayerToolStripMenuItem;
     }

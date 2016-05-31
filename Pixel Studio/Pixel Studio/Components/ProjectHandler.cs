@@ -40,8 +40,8 @@ namespace Pixel_Studio.Components
             }
         }
 
-        private LayerView layerView;
-        public LayerView LayerView
+        private Timeline layerView;
+        public Timeline LayerView
         {
             get { return layerView; }
             set

@@ -77,11 +77,11 @@
     <Compile Include="Controls\Canvas.Designer.cs">
       <DependentUpon>Canvas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LayerView.cs">
+    <Compile Include="Controls\Timeline.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\LayerView.Designer.cs">
-      <DependentUpon>LayerView.cs</DependentUpon>
+    <Compile Include="Controls\Timeline.Designer.cs">
+      <DependentUpon>Timeline.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProjectControl.cs">
       <SubType>UserControl</SubType>
@@ -118,8 +118,8 @@
     <EmbeddedResource Include="Controls\Canvas.resx">
       <DependentUpon>Canvas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LayerView.resx">
-      <DependentUpon>LayerView.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Timeline.resx">
+      <DependentUpon>Timeline.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProjectView.resx">
       <DependentUpon>ProjectView.cs</DependentUpon>
