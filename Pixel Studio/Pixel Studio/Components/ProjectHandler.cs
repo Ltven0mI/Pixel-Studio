@@ -1,5 +1,4 @@
 ﻿using Pixel_Studio.Controls;
-using Pixel_Studio.Projects;
 using Pixel_Studio.Tools;
 using System;
 using System.Collections.Generic;
@@ -225,9 +224,9 @@ namespace Pixel_Studio.Components
 
         public void NewLayer(string name)
         {
-            if (ActiveProject != null && ActiveProject.projectType == Project.ProjectType.Image)
+            if (ActiveProject != null)
             {
-                ((ImageProject)ActiveProject.ProjectObject).NewLayer(name);
+                ActiveProject.NewLayer(name);
                 Redraw();
             }
         }

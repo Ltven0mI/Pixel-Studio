@@ -46,7 +46,10 @@ namespace Pixel_Studio.Tools
         {
             base.MouseUp(btn, x, y, g);
             if (btn == MouseButtons.Left)
-                Canvas.ActiveProject.History.AddChange(new Project.ProjectHistory.GraphicalChange(new Bitmap(Canvas.ActiveProject.ProjectObject.GetImage()), 0, 0, 0));
+            {
+                Project project = Canvas.ActiveProject;
+                project.History.AddChange(new ProjectHistory.GraphicalChange(new Bitmap(project.ActiveFrame.Image), 0, 0, project.ActiveLayer.Index, project.ActiveFrame.Index));
+            }
         }
 
         public override void OnPaint(PaintEventArgs e, int x, int y)

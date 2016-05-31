@@ -101,9 +101,7 @@
     <Compile Include="Dialogs\NewProjectDialog.Designer.cs">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Projects\ImageProject.cs" />
     <Compile Include="Project.cs" />
-    <Compile Include="Projects\ProjectObject.cs" />
     <Compile Include="PSWindow.cs">
       <SubType>Form</SubType>
     </Compile>

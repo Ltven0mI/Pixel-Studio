@@ -1,6 +1,6 @@
 ﻿using Pixel_Studio.Components;
 using Pixel_Studio.Controls;
-using Pixel_Studio.Projects;
+using Pixel_Studio.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,14 +20,14 @@ namespace Pixel_Studio
 
         public int Index { get; set; }
 
-        public enum ProjectType { Image, Animation }
-
         public string Name { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public ProjectType projectType { get; private set; }
-        public ProjectObject ProjectObject { get; private set; }
+        // Layers and Frames //
+        public List<ProjectLayer> Layers { get; private set; }
+        public ProjectLayer ActiveLayer { get; private set; }
+        public ProjectFrame ActiveFrame { get { return ActiveLayer?.ActiveFrame; } }
 
         public ProjectHistory History { get; private set; }
 
@@ -105,22 +105,14 @@ namespace Pixel_Studio
         public event EventHandler IsActiveChanged;
 
 
-        public Project(ProjectType projectType, string name, int width, int height)
+        public Project(string name, int width, int height)
         {
-            this.projectType = projectType;
             Name = name;
             Width = width;
             Height = height;
-            switch (projectType)
-            {
-                case ProjectType.Image:
-                    ProjectObject = new ImageProject(Width, Height);
-                    break;
-                case ProjectType.Animation:
-                    break;
-            }
 
             Scale = 8;
+            InitLayers();
             History = new ProjectHistory(this);
         }
 
@@ -132,7 +124,14 @@ namespace Pixel_Studio
 
             //Bitmap image = ProjectObject.GetImage();
             //e.Graphics.DrawImage(image, DrawX, DrawY, DrawWidth, DrawHeight);
-            ProjectObject.Draw(e, DrawX, DrawY, DrawWidth, DrawHeight);
+            //ProjectObject.Draw(e, DrawX, DrawY, DrawWidth, DrawHeight);
+
+            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            foreach (ProjectLayer layer in Layers)
+            {
+                e.Graphics.DrawImage(layer.ActiveFrame.Image, DrawX, DrawY, DrawWidth, DrawHeight);
+            }
         }
 
 
@@ -191,9 +190,8 @@ namespace Pixel_Studio
         {
             if (Canvas != null)
             {
-                Bitmap image = ProjectObject.GetImage();
-                DrawWidth = (int)(image.Width * Scale);
-                DrawHeight = (int)(image.Height * Scale);
+                DrawWidth = (int)(Width * Scale);
+                DrawHeight = (int)(Height * Scale);
                 DrawX = (int)((Canvas.Size.Width / 2f - DrawWidth / 2f) + LockedOffsetX);
                 DrawY = (int)((Canvas.Size.Height / 2f - DrawHeight / 2f) + LockedOffsetY);
             }
@@ -233,108 +231,181 @@ namespace Pixel_Studio
 
         public void Revert()
         {
-            ProjectObject.Revert();
+            InitLayers();
         }
 
 
-        // Project History //
-        public class ProjectHistory
+        // Layer Methods //
+        public void InitLayers()
         {
-            private Project Project;
+            Layers = new List<ProjectLayer>();
+            NewLayer("Background");
+        }
 
-            private List<Change> UndoPool;
-            private List<Change> RedoPool;
+        public void SetActiveLayer(ProjectLayer layer)
+        {
+            if (Layers.Contains(layer))
+                ActiveLayer = layer;
+            else
+                throw new ArgumentException("Layer does not exist in Project!");
+        }
+
+        public void NewLayer(string name)
+        {
+            ProjectLayer newLayer = new ProjectLayer(name, Width, Height);
+            newLayer.Index = Layers.Count;
+            Layers.Add(newLayer);
+            SetActiveLayer(newLayer);
+        }
+    }
 
 
-            public ProjectHistory(Project project)
+    public class ProjectLayer
+    {
+        public List<ProjectFrame> Frames { get; private set; }
+        public ProjectFrame ActiveFrame { get; private set; }
+
+        public string Name;
+        private int Width;
+        private int Height;
+
+        public int Index;
+
+
+        public ProjectLayer(string name, int width, int height)
+        {
+            Name = name;
+            Width = width;
+            Height = height;
+            InitFrames();
+        }
+
+
+        public void InitFrames()
+        {
+            Frames = new List<ProjectFrame>();
+            NewFrame();
+        }
+
+
+        public void SetActiveFrame(ProjectFrame frame)
+        {
+            if (Frames.Contains(frame))
+                ActiveFrame = frame;
+            else
+                throw new ArgumentException("Frame does not exist in Layer!");
+        }
+
+        public void NewFrame()
+        {
+            ProjectFrame newFrame = new ProjectFrame(Width, Height);
+            newFrame.Index = Frames.Count;
+            Frames.Add(newFrame);
+            SetActiveFrame(newFrame);
+        }
+    }
+
+
+    public class ProjectFrame
+    {
+        public Bitmap Image { get; private set; }
+        public int Index;
+
+        public ProjectFrame(int width, int height)
+        {
+            Image = ImageUtil.CreateBitmap(width, height, Color.FromArgb(0, 255, 255, 255));
+        }
+    }
+
+
+    public class ProjectHistory
+    {
+        private Project Project;
+
+        private List<Change> UndoPool;
+        private List<Change> RedoPool;
+
+
+        public ProjectHistory(Project project)
+        {
+            Project = project;
+            UndoPool = new List<Change>();
+            RedoPool = new List<Change>();
+        }
+
+
+        public void Undo()
+        {
+            if (UndoPool.Count > 0)
             {
-                Project = project;
-                UndoPool = new List<Change>();
-                RedoPool = new List<Change>();
-            }
+                Change change = UndoPool[UndoPool.Count - 1];
+                UndoPool.RemoveAt(UndoPool.Count - 1);
+                RedoPool.Add(change);
 
-
-            public void Undo()
-            {
                 if (UndoPool.Count > 0)
                 {
-                    Change change = UndoPool[UndoPool.Count - 1];
-                    UndoPool.RemoveAt(UndoPool.Count - 1);
-                    RedoPool.Add(change);
-
-                    if (UndoPool.Count > 0)
-                    {
-                        UndoPool[UndoPool.Count - 1].RevertTo(Project);
-                    }
-                    else
-                    {
-                        Project.Revert();
-                    }
+                    UndoPool[UndoPool.Count - 1].RevertTo(Project);
                 }
-            }
-
-            public void Redo()
-            {
-                if (RedoPool.Count > 0)
+                else
                 {
-                    Change change = RedoPool[RedoPool.Count - 1];
-                    RedoPool.RemoveAt(RedoPool.Count - 1);
-                    UndoPool.Add(change);
-                    change.RevertTo(Project);
+                    Project.Revert();
                 }
             }
+        }
 
-
-            public void AddChange(Change change)
+        public void Redo()
+        {
+            if (RedoPool.Count > 0)
             {
+                Change change = RedoPool[RedoPool.Count - 1];
+                RedoPool.RemoveAt(RedoPool.Count - 1);
                 UndoPool.Add(change);
-                RedoPool.Clear();
+                change.RevertTo(Project);
+            }
+        }
+
+
+        public void AddChange(Change change)
+        {
+            UndoPool.Add(change);
+            RedoPool.Clear();
+        }
+
+
+        // Change Types //
+        public interface Change
+        {
+            void RevertTo(Project project);
+        }
+
+        // Graphical Change //
+        public class GraphicalChange : Change
+        {
+            public Bitmap Image;
+            public int X { get; private set; }
+            public int Y { get; private set; }
+
+            public int LayerIndex { get; private set; }
+            public int FrameIndex { get; private set; }
+
+
+            public GraphicalChange(Bitmap image, int x, int y, int layerIndex, int frameIndex)
+            {
+                Image = image;
+                X = x;
+                Y = y;
+                LayerIndex = layerIndex;
+                FrameIndex = frameIndex;
             }
 
-
-            // Change Types //
-            public interface Change
+            public void RevertTo(Project project)
             {
-                void RevertTo(Project project);
-            }
-
-            // Graphical Change //
-            public class GraphicalChange : Change
-            {
-                public Bitmap Image;
-                public int X { get; private set; }
-                public int Y { get; private set; }
-
-                public int LayerIndex { get; private set; }
-                public int FrameIndex { get; private set; }
-
-
-                public GraphicalChange(Bitmap image, int x, int y, int layerIndex)
+                using (Graphics g = Graphics.FromImage(project.Layers[LayerIndex].Frames[FrameIndex].Image))
                 {
-                    Image = image;
-                    X = x;
-                    Y = y;
-                    LayerIndex = layerIndex;
-                    FrameIndex = -1;
-                }
-
-                public GraphicalChange(Bitmap image, int x, int y, int layerIndex, int frameIndex)
-                {
-                    Image = image;
-                    X = x;
-                    Y = y;
-                    LayerIndex = layerIndex;
-                    FrameIndex = frameIndex;
-                }
-
-                public void RevertTo(Project project)
-                {
-                    using (Graphics g = Graphics.FromImage(project.ProjectObject.GetImage())) {
-                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-                        g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
-                        g.DrawImage(Image, X, Y);
-                    }
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                    g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                    g.DrawImage(Image, X, Y);
                 }
             }
         }

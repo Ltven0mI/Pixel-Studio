@@ -81,7 +81,7 @@ namespace Pixel_Studio.Controls
                 int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
                 int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
 
-                using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                using (Graphics g = Graphics.FromImage(ActiveProject.ActiveFrame.Image))
                     ActiveTool.MouseDown(e.Button, projectX, projectY, g);
                 Invalidate();
             }
@@ -105,7 +105,7 @@ namespace Pixel_Studio.Controls
                     int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
                     if (projectX != LastProjectX || projectY != LastProjectY)
                     {
-                        using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                        using (Graphics g = Graphics.FromImage(ActiveProject.ActiveFrame.Image))
                             ActiveTool.MouseDragged(e.Button, projectX, projectY, LastProjectX, LastProjectY, g);
                     }
                 }
@@ -131,7 +131,7 @@ namespace Pixel_Studio.Controls
             {
                 int projectX = (int)Math.Floor((e.X - ActiveProject.DrawX) / ActiveProject.Scale);
                 int projectY = (int)Math.Floor((e.Y - ActiveProject.DrawY) / ActiveProject.Scale);
-                using (Graphics g = Graphics.FromImage(ActiveProject.ProjectObject.GetImage()))
+                using (Graphics g = Graphics.FromImage(ActiveProject.ActiveFrame.Image))
                     ActiveTool.MouseUp(e.Button, projectX, projectY, g);
                 Invalidate();
             }

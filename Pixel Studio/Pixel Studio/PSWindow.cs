@@ -71,7 +71,7 @@ namespace Pixel_Studio
             NewProjectDialog dialog = new NewProjectDialog();
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                projectHandler.AddProject(new Project(Project.ProjectType.Image, dialog.ProjectName, dialog.ProjectWidth, dialog.ProjectHeight));
+                projectHandler.AddProject(new Project(dialog.ProjectName, dialog.ProjectWidth, dialog.ProjectHeight));
             }
         }
 
