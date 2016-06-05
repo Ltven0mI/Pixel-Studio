@@ -59,8 +59,8 @@ namespace Pixel_Studio.Tools
             {
                 Project project = Canvas.ActiveProject;
                 float scale = Canvas.ActiveProject.Scale;
-                int drawX = (int)Math.Ceiling(project.DrawX + x * scale);
-                int drawY = (int)Math.Ceiling(project.DrawY + y * scale);
+                int drawX = project.DrawX + (int)Math.Ceiling(x * scale);
+                int drawY = project.DrawY + (int)Math.Ceiling(y * scale);
                 int drawSize = (int)Math.Floor(scale);
                 e.Graphics.DrawRectangle(BorderPenBack, drawX, drawY, drawSize, drawSize);
                 e.Graphics.DrawRectangle(BorderPenFore, drawX, drawY, drawSize, drawSize);
